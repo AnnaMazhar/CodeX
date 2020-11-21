@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Register / Login</title>
+    <style type="text/css">
+    	body{
+    	background-color: rgb(99,128,107)
+    	}
+        fieldset
+        {
+        margin-left: auto;
+    	margin-right: auto;
+    	width: 8em
+    	}
+    	legend{
+    	margin-left: auto;
+    	margin-right: auto;
+    	}
+    	.form
+    	{
+    	margin-top:5em;
+    	}
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <fieldset>
+            <legend> NEW CONTEST </legend>
+            <form name="add_contest" autocomplete="off" action="../php/add_contest.php" method="post">
+                <input name="name" type="text" placeholder="Contest Name" required=""><br>
+                <input name="start_time" type="text" placeholder="Start Time like 2012-12-02 13:00" required=""><br>
+                <input name="duration" type="text" placeholder="Duration in Minutes" required=""><br>
+                <input name="submit" type="submit">
+            </form>
+        </fieldset>
+    </div>
+
+</body>
+</html>
