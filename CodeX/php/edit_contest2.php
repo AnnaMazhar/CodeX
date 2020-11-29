@@ -10,8 +10,8 @@
         }
         .btn-group button {
       position: absolute;
-      top: 65px;
-      left: 15px;
+      top: 115px;
+      left: 5px;
       background-color: #11346b; 
       border: 1px solid green; /* Green border */
       color: white; /* White text */
@@ -31,10 +31,6 @@ $servername = "localhost";
 $username = "debian-sys-maint";
 $password = "NVxKE4bCYGO8nV9Y";
 $dbname = "Code-X";
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "Code-X";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -59,29 +55,46 @@ else
         echo "<br>Yaar mujhe tou lagta hai aap admin hi nahi ho :(";
     }
     else
-    {
-        date_default_timezone_set("Asia/Karachi");
+    {   
+        
+        $contestid = $_SESSION['contest_ID'];
         $name = $_POST['name'];
-        $admin_username = $_SESSION["username"];
-        $time_created = date("Y-m-d H:i:s"); // seconds bhi add kar ke dekho
-        $start_time = $_POST['start_time'];
-        $duration = $_POST['duration'];
-    
-        $sql = "INSERT INTO contest (name, admin_username, time_created, start_time, duration) VALUES ('$name', '$admin_username', '$time_created', '$start_time', '$duration')";
-    
+        $starttime = $_POST["start_time"];
+        $duration = $_POST["duration"];
+        
+        if($name != ""){ $sql = "UPDATE contest SET name= '".$name."' WHERE contest_ID='".$contestid."' ";
         if ($conn->query($sql) === TRUE) {
-    
-            echo "<h1> New Contest has been successfully created! </h>";
-            
+        echo "Contest Name Updated Successfully!";
+        echo "<br>";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        echo "Error updating contest name: " . $conn->error;
+        echo "<br>";
+        } }
+
+        if($starttime != ""){ $sql = "UPDATE contest SET start_time= '".$starttime."' WHERE contest_ID='".$contestid."' ";
+        if ($conn->query($sql) === TRUE) {
+        echo "Start Time Updated Successfully!";
+        echo "<br>";
+        } else {
+        echo "Error updating starting time: " . $conn->error;
+        echo "<br>";
+        } }
+
+        if($duration != ""){ $sql = "UPDATE contest SET duration= '".$duration."'  WHERE contest_ID='".$contestid."' ";
+        if ($conn->query($sql) === TRUE) {
+        echo "Contest Duration Updated Successfully!";
+        echo "<br>";
+        } else {
+        echo "Error updating duration: " . $conn->error;
+        echo "<br>";
+        } }
     }
 }
 
 $conn->close();
 
-?> 
+?>
+
 </head>
 <body>
 
