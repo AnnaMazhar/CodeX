@@ -11,3 +11,9 @@ Use cases done:
 3) Sign up admin
 4) Sign in admin
 5) Create a new contest
+6) Enroll into contests
+7) View Contest details
+8) View and Edit Personal Profile (participant)
+9) View and Edit Personal Profile (admin)
+10) Modify Contest Rules
+11) Add or Modify round
