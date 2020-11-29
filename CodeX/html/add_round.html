@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Register / Login</title>
+    <title>Add Round</title>
     <style type="text/css">
     	body{
     	background-color: rgb(99,128,107)
@@ -47,16 +47,18 @@
 
 <body>
     <div class="header">
-  <a class="logo"> NEW CONTEST </a>
+  <a class="logo"> NEW ROUND </a>
 </div>
 
     <div class="form">
         <fieldset>
-            <legend> NEW CONTEST </legend>
-            <form name="add_contest" autocomplete="off" action="../php/add_contest.php" method="post">
-                <input name="name" type="text" placeholder="Contest Name" required=""><br>
-                <input name="start_time" type="text" placeholder="Start Time like 2012-12-02 13:00" required=""><br>
-                <input name="duration" type="text" placeholder="Duration in Minutes" required=""><br>
+            <legend> NEW ROUND </legend>
+            <form name="add_round" autocomplete="off" action="../php/add_round.php" method="post">
+                <input name="title" type="text" placeholder="Enter round title" required=""><br>
+                <input name="problem_statement" type="text" placeholder="Enter complete problem statement" required=""><br>
+                <input name="test_input" type="text" placeholder="Enter test input" required=""><br>
+                <input name="expected_output" type="text" placeholder="Enter expected output for test input" required=""><br>
+                <input name="total_marks" type="text" placeholder="Marks" required=""><br>
                 <input name="submit" type="submit">
             </form>
         </fieldset>
