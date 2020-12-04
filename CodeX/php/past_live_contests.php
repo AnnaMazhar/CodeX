@@ -1,34 +1,3 @@
-<?php
-
-include "connect.php";
-
-// Start session
-session_start();
-
-// If session doesnt have relevant variables
-if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
-{
-    echo "Nopes";
-}
-else
-{
-    if (!($_SESSION["is_admin"]))
-    {
-        echo $_SESSION["is_admin"];
-        echo "<br> Not an admin";
-    }
-    else
-    {
-        $admin_username = $_SESSION["username"];   
-        $sql = "SELECT first_name FROM admin WHERE username='".$admin_username."'";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $name = $row['first_name'];
-    }
-}
-
-$conn->close();
-?> 
 
 <!DOCTYPE html>
 <html>
@@ -60,7 +29,7 @@ a:hover {
 
 .btn-group button {
   position: absolute;
-  top: 60px;
+  top: 50px;
   right: 15px;
   background-color: #0E5225; 
   border: 1px solid green; /* Green border */
@@ -74,26 +43,11 @@ a:hover {
   background-color: #11346b;
 }
 
-.btn-group2 button {
-  position: absolute;
-  top: 100px;
-  right: 15px;
-  background-color: #11346b; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 5px 5px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group2 button:hover {
-  background-color: #0E5225;
-}
 
 .card {
   position: absolute;
   top: 200px;
-  right: 800px;
+  right: 600px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 20%;
@@ -105,25 +59,13 @@ a:hover {
 .card2 {
   position: absolute;
   top: 200px;
-  right: 500px;
+  right: 300px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 20%;
   color: white;
 }
 .card2:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-.card3 {
-  position: absolute;
-  top: 200px;
-  right: 200px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 20%;
-  color: white;
-}
-.card3:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
@@ -172,43 +114,30 @@ a:hover {
 }
   
 }
+
 </style>
 </head>
 <body>
-
 <div class="header">
-  <a class="logo"> Admin Dashboard</a>
-  <b class="logo"> <?php echo "Welcome ".$name ?> </b>
-
+  <a class="logo"> View All Contests </a>
   <div class="btn-group">
-    <button onclick="document.location='admin_details.php'"  style="width:25%">View and Edit Profile</button>
+    <button onclick="document.location='admin_portal.php'"  style="width:10%">Back</button>
   </div>
 </div>
 
-<div class="btn-group2">
-    <button onclick="document.location='../html/index.html'" style="width:25%">Sign Out </button>  
-</div>
-
 <div class="card">
-  <img src="../img/images.png" alt="Avatar" style="width:100%">
+  <img src="../img/past_live.jpg" alt="Avatar" style="width:100%">
   <div class="container">
-    <A href="../html/add-contest.html"> <h4>Create New Contests</h4>  </A>
+    <a href="past_contests.php"> <h4>Past Contests</h4>  </a>
   </div>
 </div>
 
 <div class="card2">
-  <img src="../img/images.png" alt="Avatar" style="width:100%">
+  <img src="../img/past_live.jpg" alt="Avatar" style="width:100%">
   <div class="container">
-    <A href="past_live_contests.php"> <h4>View All Contests</h4> </A>
+   <a href="live_contests.php"> <h4>Live Contests</h4>  </a> 
   </div>
 </div>
-<div class="card3">
-  <img src="../img/images.png" alt="Avatar" style="width:100%">
-  <div class="container">
-  <A href="contest_details.php"><h4>My Contests</h4> </A>
-  </div>
-</div>
-
 
 </body>
 </html>

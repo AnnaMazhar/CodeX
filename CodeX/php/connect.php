@@ -1,10 +1,16 @@
 <?php
+
+// $servername = "localhost";
+// $username = "debian-sys-maint";
+// $password = "WjniZbWoWwngK07Y";
+// $dbname = "Code-X";
+
 $servername = "localhost";
+// $username = "root";
+// $password = "";
 $username = "debian-sys-maint";
 $password = "NVxKE4bCYGO8nV9Y";
 $dbname = "Code-X";
-
-
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -13,6 +19,5 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
-
 
 ?>

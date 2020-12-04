@@ -1,7 +1,5 @@
 <?php
-
 include "connect.php";
-
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -33,30 +31,6 @@ session_start();
           right: 500px;
           width: 10em
         }
-        input[type=text] {
-          border: 2px solid #555;
-          outline: none;
-        }
-
-        input[type=text]:focus{
-          background-color: lightblue;
-        }
-        input[type=password] {
-          border: 2px solid #555;
-          outline: none;
-        }
-
-        input[type=password]:focus{
-          background-color: lightblue;
-        }
-        input[type=submit] {
-            color: white;
-          background-color: #11346b;
-        }
-        input[type=submit]:hover {
-          background-color: #3e8e41;
-        }
-
         legend{
         margin-left: auto;
         margin-right: auto;
@@ -136,7 +110,7 @@ session_start();
 
         .btn-group button {
         position: absolute;
-        top: 43px;
+        top: 45px;
         right: 17px;
         background-color: #11346b; 
         border: 1px solid green; /* Green border */
@@ -175,36 +149,20 @@ session_start();
 
 .btn-group2 button {
   position: absolute;
-  top: 85px;
-  right: 17px;
+  top: 50px;
+  right: 15px;
   background-color: #11346b; 
   border: 1px solid green; /* Green border */
   color: white; /* White text */
-  padding: 5px 5px; /* Some padding */
+  padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
 }
-
-.btn-group3 button {
-  position: absolute;
-  top: 10px;
-  right: 17px;
-  background-color: #11346b; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 5px 5px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
 
 .btn-group2 button:hover {
   background-color: #0E5225;
 }
 
-.btn-group3 button:hover {
-  background-color: #0E5225;
-}
             
     </style>
 </head>
@@ -262,72 +220,12 @@ else
 
 ?> 
 
-<form action="add_round.php" method="post">
-<input type="hidden" name="round_number" id="round_addition_form">
-</form>
-
-<form action="delete_round.php" method="post">
-<input type="hidden" name="round_number" id="delete_round_form">
-</form>
-
-<div class="header">
-  <a class="logo">  <?php echo $name ?> </a>
-  <div class="btn-group">
-    <button onclick="edit_round(<?php echo $next_round_number ?>)" style="width:25%">Add Rounds</button>
-  </div>
-
-  </div>
+ <div class="header">
+  <a class="logo"> Round Details </a>
   <div class="btn-group2">
-  <button onclick="cancel()" style="width:25%">Go Back to All Contests</button>
+    <button onclick="document.location='live_contests.php'"  style="width:10%">Back</button>
   </div>
- 
-  </div>
-  <div class="btn-group3">
-  <button onclick="participants()" style="width:25%">View Participants</button>
-  </div>
-
-    <table class="styled-table">
-    <thead>
-        <tr>
-            <td>Contest ID</td>
-            <td><?php echo $contestid ?></td>
-        </tr>
-    
-        <tr>
-            <td>Contest Name</td>
-            <td><?php echo $name ?></td>
-        </tr>
-        <tr>
-            <td>Time Created</td>
-            <td><?php echo $timecreated ?></td>
-        </tr>
-        <tr >
-            <td >Starting Time</td>
-            <td><?php echo $starttime ?></td>
-        </tr>
-
-        <tr>
-            <td>Duration (Minutes)</td>
-            <td><?php echo $duration ?></td>
-        </tr>
-    </thead>
-</table>
-
-<div class="form">
-        <fieldset>
-            <legend> Edit Contest Details </legend>
-            <form name="register" autocomplete="off" action="edit_contest2.php" method="post">
-                <input name="name" type="text" placeholder="Enter new contest name" ><br>
-                <input name="start_time" type="text" placeholder="Enter new start time" ><br>
-                <input name="duration" type="text" placeholder="Enter new duration" ><br>
-                <br>
-                <input name="submit" type="submit">
-            </form>
-        </fieldset>
-    </div>  
-<div class="center">
-
-<h2>Rounds:</h2>
+</div>
 
 <?php
 
@@ -339,7 +237,6 @@ $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$
          echo "<th>"."Round #"."</th>";
         echo "<th>"."Title"."</th>";
         echo "<th>"."Total Marks"."</th>";
-        echo "<th>".""."</th><th>".""."</th>";
         //echo '<table border="1">';
         while ($row = $result->fetch_row()) {
         echo "<tr>";
@@ -347,47 +244,12 @@ $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$
         for($i = 0; $i < $result->field_count; $i++){
           echo "<td>$row[$i]</td>";
         }
-
-        echo <<<HTML
-        <td><div class="btn-group-edit"><button id=$row[0] onclick="edit_round(this.id)"  style="width:100%">Edit</button></div></td>
-        HTML;
-        echo <<<HTML
-        <td><div class="btn-group-delete"><button id="delete$row[0]" onclick="delete_round(this.id)"  style="width:100%">Delete</button></div></td>
-        HTML;
-        echo "</tr>";
       }
       echo "</thead></table>"; 
 
       $conn->close();
 ?>
 </div>
-
-    <script type="text/javascript">
-        function edit_round(round_number)
-        {
-          console.log(round_number);
-          var element = document.getElementById("round_addition_form");
-          element.value = round_number;
-          element.form.submit();
-        }
-        function delete_round(round_number)
-        {
-          round_number = parseInt(round_number.substring(6));
-          console.log(round_number);
-          var element = document.getElementById("delete_round_form");
-          element.value = round_number;
-          element.form.submit();
-        } 
-        function cancel()
-        {
-          window.location.href = "contest_details.php";
-        }
-
-        function participants()
-        {
-          window.location.href = "view_submission.php";
-        }
-    </script>
 
 </body>
 </html>

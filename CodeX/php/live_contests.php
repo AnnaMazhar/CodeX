@@ -4,30 +4,51 @@
     <meta charset="utf-8"> 
     <title>Contest Details</title>
     <style type="text/css">
-        body{
-        background-color: rgb(99,128,107);
-        font-family: Arial, Helvetica,sans-serif;
-        }
-        .contest{
-          color:red;
-          float: left;
-          color: blue;
-          text-align: center;
-          text-decoration: none;
-          font-size: 30px; 
-          line-height: 25px;
-          border-radius: 4px;
-        }
+    body{
+    background-color: rgb(99,128,107);
+    font-family: Arial, Helvetica,sans-serif;
+    }
+    .header {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 40px 10px;
+  }
 
-        .card {
-          position: relative;
-          top: 200px;
-          right: 800px;
-          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-          transition: 0.3s;
-          width: 20%;
-          color: white;
-        }
+  .header a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px; 
+    line-height: 25px;
+    border-radius: 4px;
+  }
+
+  .header a.logo {
+    font-size: 30px;
+    font-weight: bold;
+  }
+    .contest{
+      color:red;
+      float: left;
+      color: blue;
+      text-align: center;
+      text-decoration: none;
+      font-size: 30px; 
+      line-height: 25px;
+      border-radius: 4px;
+    }
+
+    .card {
+      position: relative;
+      top: 200px;
+      right: 800px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      width: 20%;
+      color: white;
+    }
 
 
         .header b {
@@ -43,27 +64,6 @@
   border-radius: 4px;
 }       
 
-.header {
-  overflow: hidden;
-  background-color: #f1f1f1;
-  padding: 40px 10px;
-}
-
-.header a {
-  float: left;
-  color: black;
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
-}
-
-.header a.logo {
-  font-size: 35px;
-  font-weight: bold;
-}
 
 .margin-auto{
   margin: auto;
@@ -97,6 +97,7 @@ th, td {
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
 }
+
 .btn-group2 button {
   position: absolute;
   top: 50px;
@@ -114,36 +115,33 @@ th, td {
 }
 
 
-    </style>
+ </style>
 </head>
 
 <body>
-
-  <div class="header">
-  <a class="logo"> My Contests </a>
+<div class="header">
+  <a class="logo"> View Live Contests </a>
   <div class="btn-group2">
-    <button onclick="document.location='admin_portal.php'"  style="width:10%">Back</button>
+    <button onclick="document.location='past_live_contests.php'"  style="width:10%">Back</button>
   </div>
 </div>
 <br>
-<!-- <div class="header">
-<a> My Contests</a>
 
-  
 </div>
-
-<div class="btn-group">
-  <button onclick="back()" style="width:200px">Go Back to Dashboard</button>
-  </div> -->
-
-<form action="edit_contest.php" method="post">
+<form action="live_rounds.php" method="post">
 <input type="hidden" name="cid" id="cid">
 </form>
 
 <div>
 <?php
-
 include "connect.php";
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 function timeAddition( $time, $plusMinutes ) {
 
@@ -157,26 +155,31 @@ function timeAddition( $time, $plusMinutes ) {
 session_start();
 
 // If session doesnt have relevant variables
-if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
-{
-    echo "Nope, Bye";
-}
-else
-{
-    if (!($_SESSION["is_admin"]))
-    {
-        echo $_SESSION["is_admin"];
-        echo "Again, Bye";
-    }
-    else
-    {   
-        $username = $_SESSION['username'];
-        
-        $sql = "SELECT * FROM contest WHERE admin_username='".$username."' ORDER BY contest_ID";;
+// if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
+// {
+//     echo "Nope, Bye";
+// }
+//else
+//{
+    // if (!($_SESSION["is_admin"]))
+    // {
+    //     echo $_SESSION["is_admin"];
+    //     echo "Again, Bye";
+    // }
+    // else
+    // {   
+        date_default_timezone_set("Asia/Karachi");
+        //$username = $_SESSION['username'];
+
+        $currentdt = new DateTime();
+        //echo $currentdt->format('Y-m-d H:i:s');
+
+        $sql = "SELECT * FROM contest ORDER BY contest_ID";;
         $result = $conn->query($sql);
         echo "<table class=center> ";
         echo "<th>"."Contest ID"."</th>";
         echo "<th>"."Contest Name"."</th>";
+        echo "<th>"."Admin"."</th>";
         echo "<th>"."Creation Time"."</th>";
         echo "<th>"."Starting Time"."</th>";
         echo "<th>"."Ending Time"."</th>";
@@ -186,13 +189,23 @@ else
         echo "<tr>";
           
           for($i = 0; $i < $result->field_count; $i++){
-          if ($i != 2 && $i != 5)
-          echo "<td>$row[$i]</td>";
-          if ($i == 5)
-          {
-            $time = timeAddition($row[4],$row[$i]);
-            echo "<td>$time</td>";
+            if($currentdt->format('Y-m-d H:i:s') < timeAddition($row[4],$row[5]) ){
+              if ($i != 5)
+              echo "<td>$row[$i]</td>";
+              if ($i == 5)
+              {
+                $time = timeAddition($row[4],$row[$i]);
+                echo "<td>$time</td>";
+              }
           }
+        }
+
+        if($currentdt->format('Y-m-d H:i:s') < timeAddition($row[4],$row[5])){
+        echo <<<HTML
+        <td><div class="btn-group">
+        <button id=$row[0] onclick="id_store(this.id)"  style="width:100%">View</button>
+        </div></td>
+        HTML;
         }
 
         echo <<<HTML
@@ -204,20 +217,15 @@ else
           element.value = res;
           element.form.submit();
           
-          header('Location: edit_contest.php'); 
+          header('Location: live_rounds.php'); 
         } 
         </script>
         HTML;
-
-        echo <<<HTML
-        <td><div class="btn-group">
-        <button id=$row[0] onclick="id_store(this.id)"  style="width:100%">View</button>
-        </div></td>
-        HTML;
+     
       }
       echo "</table>";        
-    }
-}
+   // }
+//}
 
 $conn->close();
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"> 
-    <title>Contest Details</title>
+    <title>Contest Participants</title>
     <style type="text/css">
         body{
         background-color: rgb(99,128,107);
@@ -46,10 +46,11 @@
 .header {
   overflow: hidden;
   background-color: #f1f1f1;
-  padding: 40px 10px;
+  padding: 30px 10px;
 }
 
 .header a {
+  
   float: left;
   color: black;
   text-align: center;
@@ -61,8 +62,9 @@
 }
 
 .header a.logo {
-  font-size: 35px;
-  font-weight: bold;
+  font-family: Arial, Helvetica,sans-serif;
+  font-size: 25px;
+  
 }
 
 .margin-auto{
@@ -90,51 +92,59 @@ th, td {
 }
 
 .btn-group button {
-  margin: auto;
   background-color: #0E5225; 
   border: 1px solid green; /* Green border */
   color: white; /* White text */
   cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
+  width:170px;
+  height: 20px;
+  align:center;
 }
+
 .btn-group2 button {
+  align: center;
+  background-color: red; 
+  border: 1px solid red; /* Green border */
+  color: white; /* White text */
+  cursor: pointer; /* Pointer/hand icon */
+  width:170px;
+  height: 20px;
+  align:center;
+  
+}
+
+.btn-groupback button {
+  margin: auto;
   position: absolute;
   top: 50px;
-  right: 15px;
+  right: 40px;
   background-color: #0E5225; 
   border: 1px solid green; /* Green border */
   color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
 }
-
-.btn-group2 button:hover {
-  background-color: #11346b;
-}
-
 
     </style>
 </head>
 
 <body>
 
-  <div class="header">
-  <a class="logo"> My Contests </a>
-  <div class="btn-group2">
-    <button onclick="document.location='admin_portal.php'"  style="width:10%">Back</button>
-  </div>
+<div class="header">
+  <a class="logo"> Contest Participants</a>
 </div>
 <br>
-<!-- <div class="header">
-<a> My Contests</a>
 
-  
-</div>
 
-<div class="btn-group">
-  <button onclick="back()" style="width:200px">Go Back to Dashboard</button>
-  </div> -->
+<form action="submission.php" method="post">
+<input type="hidden" name="pid" id="pid">
+</form>
+
+
+<form action="disqualify.php" method="post">
+<input type="hidden" name="pname" id="pname">
+</form>
+
 
 <form action="edit_contest.php" method="post">
 <input type="hidden" name="cid" id="cid">
@@ -144,14 +154,6 @@ th, td {
 <?php
 
 include "connect.php";
-
-function timeAddition( $time, $plusMinutes ) {
-
-  $time = DateTime::createFromFormat( 'Y-m-d H:i:s', $time );
-  $time->add( new DateInterval( 'PT' . ( (integer) $plusMinutes ) . 'M' ) );
-  $newTime = $time->format( 'Y-m-d H:i:s' );
-  return $newTime;
-}
 
 // Start session
 session_start();
@@ -170,17 +172,19 @@ else
     }
     else
     {   
-        $username = $_SESSION['username'];
+        $contestid = $_SESSION['contest_ID']; 
+        //$username = $_SESSION['username'];
         
-        $sql = "SELECT * FROM contest WHERE admin_username='".$username."' ORDER BY contest_ID";;
+        $sql = "SELECT username FROM participations WHERE contest_ID='".$contestid."'";
         $result = $conn->query($sql);
+
         echo "<table class=center> ";
-        echo "<th>"."Contest ID"."</th>";
-        echo "<th>"."Contest Name"."</th>";
-        echo "<th>"."Creation Time"."</th>";
-        echo "<th>"."Starting Time"."</th>";
-        echo "<th>"."Ending Time"."</th>";
+        echo "<th>"."Participant"."</th>";
+        //echo "<th>"."Submission"."</th>";
+        //echo "<th>"."Disqualification"."</th>";
         echo "<th>".""."</th>";
+        echo "<th>".""."</th>";
+
         //echo '<table border="1">';
         while ($row = $result->fetch_row()) {
         echo "<tr>";
@@ -188,11 +192,6 @@ else
           for($i = 0; $i < $result->field_count; $i++){
           if ($i != 2 && $i != 5)
           echo "<td>$row[$i]</td>";
-          if ($i == 5)
-          {
-            $time = timeAddition($row[4],$row[$i]);
-            echo "<td>$time</td>";
-          }
         }
 
         echo <<<HTML
@@ -200,18 +199,24 @@ else
         function id_store(clicked_id)
         {
           var res = clicked_id;
-          var element = document.getElementById("cid");
+          var element = document.getElementById("pid");
           element.value = res;
           element.form.submit();
-          
-          header('Location: edit_contest.php'); 
+          header('Location: submission.php'); 
         } 
         </script>
         HTML;
 
         echo <<<HTML
         <td><div class="btn-group">
-        <button id=$row[0] onclick="id_store(this.id)"  style="width:100%">View</button>
+        <button id=$row[0] onclick="id_store(this.id)">View Submission</button>
+        </div></td>
+        HTML;
+
+        
+        echo <<<HTML
+        <td><div class="btn-group2">
+        <button id=$row[0] onclick="id_store2(this.id)">Disqualify</button>
         </div></td>
         HTML;
       }
@@ -223,11 +228,28 @@ $conn->close();
 
 ?>
 </div>
+
+<div class="btn-groupback">
+  <button onclick="back('<?php echo $contestid;?>')" style="width:200px">Back</button>
+  </div>
+
   <script>
-  function back()
+  function back(res)
   {
-    window.location.href = "admin_portal.php";
+    var element = document.getElementById("cid");
+    element.value = res;
+    element.form.submit();
   }
+
+  
+  function id_store2(clicked_username)
+  {
+    var res = clicked_username;
+    var element = document.getElementById("pname");
+    element.value = res;
+    element.form.submit();
+    header('Location: disqualify.php'); 
+  } 
 </script>
 </body>
 </html>

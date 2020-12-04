@@ -1,17 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "debian-sys-maint";
-$password = "NVxKE4bCYGO8nV9Y";
-$dbname = "Code-X";
-
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include "connect.php";
 
 // Start session
 session_start();
@@ -202,13 +190,13 @@ body {
 <div class="card2">
   <img src="../img/user.png" alt="Avatar" style="width:100%">
   <div class="container">
-    <h4>View All Contests</h4> 
+  <A href="past_live_contests_user.php"> <h4>View All Contests</h4> </A>
   </div>
 </div>
 <div class="card3">
   <img src="../img/user.png" alt="Avatar" style="width:100%">
   <div class="container">
-    <h4>My Contests</h4> 
+    <A href="user_display_contests.php"> <h4>My Contests</h4>  </A>
   </div>
 </div>
 
