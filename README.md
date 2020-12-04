@@ -17,3 +17,15 @@ Use cases done:
 9) View and Edit Personal Profile (admin)
 10) Modify Contest Rules
 11) Add or Modify round
+12) Attempt Coding Rounds 
+13) Auto-grading Student Submissions 
+14) View Results and Statistics of a Contest
+15) Log Out - Admin
+16) Log Out - Participant
+17) Submissions of Participants
+18) View Results and Statistics of a Contest 
+19) Disqualify Participants 
+
+
+19/23 = 82.6% done!
+
