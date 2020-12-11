@@ -6,14 +6,14 @@
     <title>Register / Login</title>
     <style type="text/css">
     	body{
-    	background-color: rgb(99,128,107)
+    	background-color: rgba(7, 145, 85, 0.9);
     	}
         fieldset
         {
-        
+            color: white;
         margin-left: auto;
     	margin-right: auto;
-    	width: 8em
+    	width: 10em;
     	}
     	legend{
     	margin-left: auto;
@@ -21,55 +21,144 @@
     	}
     	.form
     	{
-    	margin-top:5em;
+    	margin-bottom:2em;
     	}
+        .inputfield {
+            width: 15em;
+            /* display:block; */
+            /* position:relative; */
+        }
+        .submitButton {
+            width: 15em;
+        }
+        .checkboxgroup {
+            display: inline-block;
+            text-align: center;
+        }
+        .checkboxgroup label {
+            display: block;
+        }
+        .divider{
+            padding: 4px;
+        }
     </style>
 </head>
 <body>
-    <div class="form">
-        <fieldset>
-            <legend> REGISTER </legend>
-            <form name="register" autocomplete="off" action="../php/sign_up.php" method="post">
-                <input name="username" autocomplete="false" type="text" placeholder="please enter your user name" required=""><br>
-                <input name="first_name" type="text" placeholder="please enter your first name" required=""><br>
-                <input name="last_name" type="text" placeholder="please enter a last name" required=""><br>
-                <input name="date_of_birth" type="text" placeholder="Date of birth YYYY-MM-DD" required=""><br>
-                <input name="email" type="text" placeholder="please enter your email" required=""><br>
-                <input name="gender" type="text" placeholder="please enter your gender (M/F)" required=""><br>
-                <input name="password" autocomplete="false" type="password" placeholder="please enter a password" required=""><br>
-                <input name="organization" type="text" style="display: none" id ="x" value="garbage" placeholder="please enter your org. name" required=""><br>
-                <input type="radio" onclick="myFunction()" style="background-color: rgb(0,0,0)" checked="checked" value="participant" name="type">
-                <label for="participant">Participant</label><br>
-                <input type="radio" onclick="myFunction2()" value="admin" name="type">
-                <label for="admin">Admin</label><br>
-                <input name="submit" type="submit">
-            </form>
-        </fieldset>
+    <div style="height: 100%; margin-top: 60px;">
+        <div class="form" >
+            <fieldset>
+                <legend> REGISTER </legend>
+                <form name="register" autocomplete="off" action="../php/sign_up.php" method="post">
+                    <label for="username" style="font-size:15px">Username</label>
+                    <input class="inputfield" name="username" id = "u_name" autocomplete="false" type="text" placeholder="Username" pattern="\S{1,20}" required="" onkeyup = "to_lower()"><br>
+
+                    <label for="first_name" style="font-size:15px">First Name</label>
+                    <input class="inputfield" name="first_name" type="text" placeholder="First Name" pattern="[A-Za-z]{1,20}" required=""><br>
+                    
+                    <label for="last_name" style="font-size:15px">Last Name</label>
+                    <input class="inputfield" name="last_name" type="text" placeholder="Last Name" pattern="[A-Za-z]{1,20}" required=""><br>
+                    
+                    <label for="password" style="font-size:15px">Password</label>
+                    <input class="inputfield" name="password" autocomplete="false" type="password" placeholder="Password" pattern="\S{1,20}" required=""><br>
+                    
+                    <label for="email" style="font-size:15px">Email Address</label>
+                    <input class="inputfield" name="email" type="email" placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required=""><br>
+                    
+                    <label for="date_of_birth" style="font-size:15px">Date of Birth</label>
+                    <input class="inputfield" name="date_of_birth" type="date" pattern="\d{4}-[0-1]\d-[0-3]\d" required=""><br>
+                    
+                    <div class="divider"></div>
+                    
+                    <label for="organization" id ="org_label" style="font-size:15px; display: none">Organization</label>
+                    <input class="inputfield" name="organization" type="text" style="display: none" id ="org_input" value="garbage" pattern=".{1,30}" placeholder="Organization Name" required="">
+                    <div class="divider" style="display: none" id ="org_divider"></div>
+
+                    <div id="checkboxes" style="text-align: center">
+                        <div class="checkboxgroup" >
+                            <input id="radio_F" type="radio" checked="checked" value="F" name="gender">
+                            <label for="F" style="font-size:15px">Female</label>
+                        </div>
+                        <div class="checkboxgroup">
+                            <input id="radio_M" type="radio" value="M" name="gender">
+                            <label for="M" style="font-size:15px">Male</label>
+                        </div>
+                        <div class="checkboxgroup">
+                            <input id="radio_N" type="radio" value="N" name="gender">
+                            <label for="N" style="font-size:15px">Other</label>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+                    
+                    <input type="radio" onclick="myFunction()" checked="checked" value="participant" name="type">
+                    <label for="participant" style="font-size:17px">Participant</label><br>
+                    <input type="radio" onclick="myFunction2()" value="admin" name="type">
+                    <label for="admin" style="font-size:17px">Admin</label><br>
+                    
+                    <div class="divider"></div>
+                    
+                    <div style="text-align: center">
+                        <input class="submitButton" name="submit" value="Sign Up" type="submit">
+                    </div>
+                    
+                </form>
+            </fieldset>
+        </div>
+        <div class="">
+            <fieldset>
+                <legend> LOGIN </legend>
+                <form name="login" action="../php/log_in.php" method="post">
+                    
+                    <label for="username" style="font-size:15px">Username</label>
+                    <input class="inputfield" id = "u_name1" name="username" type="text" placeholder="Username" required="" onkeyup = "to_lower1()"><br>
+                    
+                    <label for="username" style="font-size:15px">Password</label>
+                    <input class="inputfield" name="password" type="password" placeholder="Password" required=""><br>
+                    
+                    <div class="divider"></div>
+                    
+                    <input type="radio" checked="checked" value="participant" name="type">
+                    <label for="participant" style="font-size:17px">Participant</label><br>
+                    <input type="radio" value="admin" name="type">
+                    <label for="admin" style="font-size:17px">Admin</label><br>
+                    
+                    <div class="divider"></div>
+                    <div style="text-align: center">
+                        <input class="submitButton" name="submit" value="Log In" type="submit">
+                    </div>
+                </form>
+            </fieldset>
+        </div>
     </div>
-    <div class="form">
-        <fieldset>
-            <legend> LOGIN </legend>
-            <form name="login" action="../php/log_in.php" method="post">
-                <input name="username" type="text" placeholder="please enter your user name" required=""><br>
-                <input name="password" type="password" placeholder="please enter your password" required=""><br>
-                <input name="submit" type="submit">
-            </form>
-        </fieldset>
-    </div>
-    
     <script>
     function myFunction() {
-	  var x = document.getElementById("x");
-	  x.style.display = "none";
-      x.value = "garbage";
+        var x = document.getElementById("org_input");
+        var y = document.getElementById("org_label");
+        var z = document.getElementById("org_divider");
+        x.style.display = "none";
+        y.style.display = "none";
+        z.style.display = "none";
+        x.value = "garbage";
     } 
 	function myFunction2() {
-	  var x = document.getElementById("x");
-	  x.style.display = "block";
-      x.value = '';
+        var x = document.getElementById("org_input");
+        var y = document.getElementById("org_label");
+        var z = document.getElementById("org_divider");
+        x.style.display = "block";
+        y.style.display = "block";
+        z.style.display = "block";
+        x.value = "";
     } 
+        function to_lower() {
+        var x = document.getElementById("u_name");
+        x.value = x.value.toLowerCase();
+    }
+        function to_lower1() {
+        var x = document.getElementById("u_name1");
+        x.value = x.value.toLowerCase();
+    }
+    
 
     </script>
-
 </body>
 </html>

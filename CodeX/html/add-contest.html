@@ -5,7 +5,7 @@
     <title>Register / Login</title>
     <style type="text/css">
     	body{
-    	background-color: rgb(99,128,107)
+        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1)); 
     	}
         fieldset
         {
@@ -17,10 +17,25 @@
     	margin-left: auto;
     	margin-right: auto;
     	}
+      .btn-group2 button {
+      position: absolute;
+      top: 40px;
+      right: 15px;
+      background-color: #0E5225; 
+      border: 1px solid green; /* Green border */
+      color: white; /* White text */
+      padding: 10px 24px; /* Some padding */
+      cursor: pointer; /* Pointer/hand icon */
+      float: left; /* Float the buttons side by side */
+    }
+
+    .btn-group2 button:hover {
+      background-color: #11346b;
+    }
         .header {
           overflow: hidden;
           background-color: #f1f1f1;
-          padding: 15px 10px;
+          padding: 25px 10px;
         }
 
         .header a {
@@ -48,15 +63,19 @@
 <body>
     <div class="header">
   <a class="logo"> NEW CONTEST </a>
+   <div class="btn-group2">
+    <button onclick="document.location='../php/admin_portal.php'"  style="width:15%">Return to Admin Portal</button>
+  </div>
 </div>
 
     <div class="form">
         <fieldset>
             <legend> NEW CONTEST </legend>
             <form name="add_contest" autocomplete="off" action="../php/add_contest.php" method="post">
-                <input name="name" type="text" placeholder="Contest Name" required=""><br>
-                <input name="start_time" type="text" placeholder="Start Time like 2012-12-02 13:00" required=""><br>
-                <input name="duration" type="text" placeholder="Duration in Minutes" required=""><br>
+                <input name="name" type="text" placeholder="Contest Name" required="" maxlength="20" ><br> 
+    
+                <input name="start_time" type="text" placeholder="y-m-d-h-m" pattern="\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}" required=""><br>
+                <input name="duration" type="text" placeholder="Duration in Minutes" pattern="\d{1,10}" maxlength="10" required=""><br>
                 <input name="submit" type="submit">
             </form>
         </fieldset>
