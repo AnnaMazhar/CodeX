@@ -1,5 +1,6 @@
 <?php
 include "connect.php";
+session_start();
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -8,9 +9,6 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-// Start session
-session_start();
 
 ?>
 
@@ -22,129 +20,130 @@ session_start();
     <title>Contest Details</title>
     <style type="text/css">
         body{
-        background-color: rgb(99,128,107)
-        }
-        fieldset
-        {        
-          position: absolute;
-          top: 140px;
-          right: 500px;
-          width: 10em
-        }
-        legend{
-        margin-left: auto;
-        margin-right: auto;
-        }
-        .header {
-          overflow: hidden;
-          background-color: #f1f1f1;
-          padding: 30px 10px;
-        }
-
-        .header a {
-          
-          float: left;
-          color: black;
-          text-align: center;
-          padding: 12px;
-          text-decoration: none;
-          font-size: 18px; 
-          line-height: 25px;
-          border-radius: 4px;
-        }
-
-        .header a.logo {
-          font-family: Arial, Helvetica,sans-serif;
-          font-size: 25px;
-          
-        }
-        .form
-        {
-            background-color: grey;
-            color: white;
-        margin-top: 0px;
-        }
-
-        .rounds-table table{
-          align: center;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
+  background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1))
         
-        .rounds-table thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
-
-        .rounds-table th, .rounds-table td {
-          height: 5px;
-          padding: 10px;
-        }
-
-        .styled-table {
-            border-collapse: collapse;
-            margin-left:30px; 
-            margin-top:auto;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .styled-table thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
-
-        .styled-table th,
-        .styled-table td {
-        padding: 12px 15px;
-        }
-
-        .styled-table2 {
-            border-collapse: collapse;
-            margin-left:80px; 
-            margin-top:auto;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .styled-table2 thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
-
-        .styled-table2 th,
-        .styled-table2 td {
-        padding: 12px 15px;
-        }
-
-        .btn-group button {
-        position: absolute;
-        top: 45px;
-        right: 17px;
-        background-color: #11346b; 
-        border: 1px solid green; /* Green border */
-        color: white; /* White text */
-        padding: 10px 24px; /* Some padding */
-        cursor: pointer; /* Pointer/hand icon */
-        float: left; /* Float the buttons side by side */
-        }
-        .btn-group button:hover {
-      background-color: #3e8e41;
     }
+    fieldset
+    {        
+      position: absolute;
+      top: 140px;
+      right: 500px;
+      width: 10em
+    }
+    legend{
+    margin-left: auto;
+    margin-right: auto;
+    }
+    .header {
+      overflow: hidden;
+      background-color: #f1f1f1;
+      padding: 30px 10px;
+    }
+
+    .header a {
+      
+      float: left;
+      color: black;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px; 
+      line-height: 25px;
+      border-radius: 4px;
+    }
+
+    .header a.logo {
+      font-family: Arial, Helvetica,sans-serif;
+      font-size: 25px;
+      
+    }
+    .form
+    {
+        background-color: grey;
+        color: white;
+    margin-top: 0px;
+    }
+
+    .rounds-table table{
+      align: center;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .rounds-table thead tr {
+    background-color: grey;
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+    }
+
+    .rounds-table th, .rounds-table td {
+      height: 5px;
+      padding: 10px;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin-left:30px; 
+        margin-top:auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+    background-color: grey;
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+    }
+
+    .styled-table th,
+    .styled-table td {
+    padding: 12px 15px;
+    }
+
+    .styled-table2 {
+        border-collapse: collapse;
+        margin-left:80px; 
+        margin-top:auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table2 thead tr {
+    background-color: grey;
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+    }
+
+    .styled-table2 th,
+    .styled-table2 td {
+    padding: 12px 15px;
+    }
+
+    .btn-group button {
+    position: absolute;
+    top: 45px;
+    right: 17px;
+    background-color: #11346b; 
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+    }
+    .btn-group button:hover {
+  background-color: #3e8e41;
+}
 
     .btn-group button {
   background-color: #0E5225; 
@@ -222,22 +221,22 @@ session_start();
   <?php
 
 
-        // Get Contest ID through POST
-        $contestid = $_POST['cid'];
+// Get Contest ID through POST
+$contestid = $_POST['cid'];
 
-        // Set Session Variable
-        $_SESSION['contest_ID'] = $contestid;
+// Set Session Variable
+$_SESSION['contest_ID'] = $contestid;
 
-        $sql = "SELECT name FROM contest WHERE contest_ID='".$contestid."'";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $name = $row['name'];
+$sql = "SELECT name FROM contest WHERE contest_ID='".$contestid."'";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$name = $row['name'];
 
-        $sql_2 = "SELECT max(round_number) AS max_round_number FROM round WHERE contest_ID = '".$contestid."'";
-        $resultt = $conn->query($sql_2);
-        $row_two = $resultt->fetch_assoc();
-        $num_rounds = $row_two["max_round_number"]; // Now i have the number of rounds
-
+$sql_2 = "SELECT max(round_number) AS max_round_number FROM round WHERE contest_ID = '".$contestid."'";
+$resultt = $conn->query($sql_2);
+$row_two = $resultt->fetch_assoc();
+$num_rounds = $row_two["max_round_number"]; // Now i have the number of rounds
+       
 ?> 
 
  <div class="header">
@@ -251,7 +250,7 @@ session_start();
   <script type="text/javascript">
   function id_store(clicked_id)
   {
-    var res = clicked_id;
+    var res = parseInt(clicked_id);
     var element = document.getElementById("cid");
     element.value = res;
     element.form.submit();
@@ -264,64 +263,60 @@ session_start();
 
 <?php
 
-$sum = 0;
-$count = 0;
-$lowest =10000; 
-$highest = 0;
-$avg = 0;
+// TO calculate Stats
+$calc_stats = "SELECT avg(total_marks) as final_avg, min(total_marks) as final_min, max(total_marks) as final_max
+FROM (SELECT participant_username,  SUM(marks_awarded2) as total_marks
+FROM (SELECT participant_username, max(marks_awarded) as marks_awarded2 FROM submission WHERE contest_ID = '".$contestid."' GROUP BY round_number, participant_username) as X
+GROUP BY participant_username) as Y";
+$stats = $conn->query($calc_stats);
+$get_stats = $stats->fetch_row();
 
-$sql = "SELECT sum(marks_awarded) AS summ, participant_username FROM submission WHERE contest_ID='".$contestid."' GROUP BY participant_username";
-        $result = $conn->query($sql);
-        echo<<<HTML
-        <table class="styled-table"><thead>
-        HTML;
-        echo "<th>"."Participant Name"."</th>";
-        echo "<th>"."Total Marks"."</th>";
-   
-        while ($row = $result->fetch_row()) {
-        echo "<tr>";
-        echo "<td> $row[1] </td>";
-        echo "<td> $row[0] </td>";
-        $sum = $sum + $row[0];
-        $count = $count + 1;
-        if($row[0] < $lowest){
-          $lowest = $row[0];
-        }
-        if($row[0]> $highest){
-          $highest = $row[0];
-        }
-      }
-      if($count!=0)
-        {$avg = $sum/$count;}
+// To calculate Each users marks
+$sql = "SELECT SUM(marks_awarded2) as total_marks, participant_username
+        FROM (SELECT participant_username, max(marks_awarded) as marks_awarded2 FROM submission WHERE contest_ID = '".$contestid."' GROUP BY round_number, participant_username) as X
+        GROUP BY participant_username";
+$result = $conn->query($sql);
+?>
+  <table class="styled-table"><thead>
+<?php
+  echo "<th>"."Participant Name"."</th>";
+  echo "<th>"."Total Marks"."</th>";
 
-      echo "</thead></table>";
-      echo "<br>";
-      echo<<<HTML
-        <table class="styled-table"><thead>
-        HTML;
-        echo "<th>"."Mean"."</th>";
-        echo "<th>"."Highest"."</th>";
-        echo "<th>"."Lowest"."</th>";
-        echo "<tr>";
-        echo "<th> $avg </th>";
-        echo "<th> $highest </th>";
-        echo "<th> $lowest </th>";
-        echo "<br>";
-      echo "</thead></table>";
-      echo "<br>"; 
+  while ($row = $result->fetch_row()) {
+  echo "<tr>";
+  echo "<td> $row[1] </td>";
+  echo "<td> $row[0] </td>";
+}
 
-      for($i = 1; $i <= $num_rounds; $i++){
-      echo<<<HTML
-        <table class="styled-table"><thead>
-        <tr>
-        <th> Round $i </th>
-        <td><div class="btn-group4">
-        <button id=$i onclick="id_store(this.id)"  style="width:60%"> View Stats </button>
-        </div></td>
-        </tr>
-        HTML;
-        echo "</thead></table>";
-    } 
+echo "</thead></table>";
+echo "<br>";
+?>
+  <table class="styled-table"><thead>
+<?php
+  echo "<th>"."Mean"."</th>";
+  echo "<th>"."Highest"."</th>";
+  echo "<th>"."Lowest"."</th>";
+  echo "<tr>";
+  echo "<th> $get_stats[0] </th>";
+  echo "<th> $get_stats[2] </th>";
+  echo "<th> $get_stats[1] </th>";
+  echo "<br>";
+echo "</thead></table>";
+echo "<br>"; 
+
+for($i = 1; $i <= $num_rounds; $i++){
+?>
+
+  <table class="styled-table"><thead>
+  <tr>
+  <th> Round <?php echo $i; ?> </th>
+  <td><div class="btn-group4">
+  <button id= "<?php echo $i; ?>" onclick="id_store(this.id)"  style="width:60%"> View Stats </button>
+  </div></td>
+  </tr>
+<?php
+  echo "</thead></table>";
+} 
 
       $conn->close();
 ?> 

@@ -1,11 +1,8 @@
-<?php
-include "connect.php";
-session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"> 
-    <title>Contest Details</title>
+    <title>Code Submitted</title>
     <style type="text/css">
         body{
         background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
@@ -64,8 +61,8 @@ session_start();?>
 }
 
 .header a.logo {
-  font-size: 35px;
-  font-weight: bold;
+  font-size: 25px;
+  
 }
 
 .margin-auto{
@@ -74,17 +71,14 @@ session_start();?>
 
 table{
   margin-left:auto; 
-    margin-right:auto;
-    margin-top:auto;
+  margin-right:auto;
+  margin-top:auto;
   
-
-  top: 10%;
-  align: center;
+  top: 20%;
   border: 1px solid black;
-  border-collapse: collapse;
-  text-align: center;
+  
   width: 75%;
-  background-color: grey; 
+  background-color: #E6E1E0; 
 }
 
 th, td {
@@ -122,27 +116,25 @@ th, td {
 
 <body>
 
-  <div class="header">
-  <a class="logo"> My Contests </a>
-  <div class="btn-group2">
-    <button onclick="document.location='admin_portal.php'"  style="width:10%">Back</button>
-  </div>
+
+
+
+<div class="header">
+  <a class="logo">
+  Submission </a>
 </div>
 <br>
 
-<form action="edit_contest.php" method="post">
-<input type="hidden" name="cid" id="cid">
-</form>
+
 
 <div>
-<?php
-function timeAddition( $time, $plusMinutes ) {
 
-  $time = DateTime::createFromFormat( 'Y-m-d H:i:s', $time );
-  $time->add( new DateInterval( 'PT' . ( (integer) $plusMinutes ) . 'M' ) );
-  $newTime = $time->format( 'Y-m-d H:i:s' );
-  return $newTime;
-}
+<?php
+
+include "connect.php";
+
+// Start session
+session_start();
 
 // If session doesnt have relevant variables
 if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
@@ -159,51 +151,32 @@ else
     else
     {   
         $username = $_SESSION['username'];
+        $contest_ID = $_GET["c_id"];
+        $round_number = $_GET["r_no"];
+        $times = $_GET['time'];
+        $participant_name = $_GET['pname'];
         
-        $sql = "SELECT * FROM contest WHERE admin_username='".$username."' ORDER BY start_time DESC";;
-        $result = $conn->query($sql);
-        echo "<table class=center> ";
-        echo "<th>"."Contest ID"."</th>";
-        echo "<th>"."Contest Name"."</th>";
-        echo "<th>"."Creation Time"."</th>";
-        echo "<th>"."Starting Time"."</th>";
-        echo "<th>"."Ending Time"."</th>";
-        echo "<th>".""."</th>";
-        //echo '<table border="1">';
-        while ($row = $result->fetch_row()) {
-        echo "<tr>";
-          
-          for($i = 0; $i < $result->field_count; $i++){
-          if ($i != 2 && $i != 5)
-          echo "<td>$row[$i]</td>";
-          if ($i == 5)
-          {
-            $time = timeAddition($row[4],$row[$i]);
-            echo "<td>$time</td>";
-          }
-        }
 
-        // echo <<<HTML
-        ?>
-        <script type="text/javascript">
-        function id_store(clicked_id)
-        {
-          var res = parseInt(clicked_id);
-          // window.print(clicked_id);
-          var element = document.getElementById("cid");
-          element.value = res;
-          element.form.submit();
-          
-          header('Location: edit_contest.php'); 
-        } 
-        </script>
+        $sql = "SELECT * FROM submission WHERE round_number=$round_number AND contest_ID=$contest_ID AND time_stamp='$times' AND participant_username='$participant_name'";
         
-        <td><div class="btn-group">
-        <button id = <?php echo $row[0]; ?> onclick="id_store(this.id)"  style="width:100%">View</button>
-        </div></td>
-        <?php
-      }
-      echo "</table>";        
+        $result = $conn->query($sql);
+        
+        $row = $result->fetch_assoc();
+        echo "<table>";
+        echo "<th>"."Code Submitted by $participant_name (Round $round_number)"."</th>";
+        echo "<tr>";
+        echo "<td>";
+        echo  "<pre>";
+        echo ($row['submitted_code']);
+        echo "</pre>";
+        echo "</td>";  
+        echo "</tr>";
+        echo "</table>";
+
+        $sql1 = "SELECT total_marks FROM round WHERE round_number=$round_number AND contest_ID=$contest_ID";
+        $result1 = $conn->query($sql1);
+        $row1 = $result1->fetch_assoc();
+        $total_marks = $row1['total_marks'];
     }
 }
 
@@ -211,12 +184,57 @@ $conn->close();
 
 ?>
 </div>
+
+<div>
+<form action="submission.php" method="post">
+<input type="hidden" name="pid" id="pid">
+</form>
+<div>
+
+<div>
+
+<table>
+<th>
+<?php echo "Marks Awarded: ";
+echo ($row['marks_awarded']);
+echo " / ";
+echo $total_marks;
+?>
+        
+        <div class="form">
+        <fieldset>
+            <form name="mg" autocomplete="off" action="manually_grade.php" method="post">
+                <input type="hidden" name="round_number" value= "<?php echo $round_number ?>">
+                <input type="hidden" name="contest_ID" value= "<?php echo $contest_ID ?>">
+                <input type="hidden" name="total_marks" value= "<?php echo $total_marks ?>">
+                <input type="hidden" name="pname" value= "<?php echo $participant_name ?>">     
+                <input type="hidden" name="time" value= "<?php echo $times ?>">     
+
+                <input name="marks" type="text" placeholder="Manually Grade Submission">          
+                <input name="submit" type="submit">
+            </form>
+        </fieldset>
+        </div>   
+</th>
+</table>
+</div>
+
+
+<div class="btn-group2">
+    <button onclick="back('<?php echo $participant_name;?>')" style="width:200px">Back</button>
+     </div>
+
   <script>
-  function back()
+  function back(res)
   {
-    window.location.href = "admin_portal.php";
+    var element = document.getElementById("pid");
+    element.value = res;
+    element.form.submit();
   }
 </script>
+
+
+
 </body>
 </html>
   

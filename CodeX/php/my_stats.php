@@ -1,14 +1,12 @@
 <?php 
 include "connect.php";
+session_start();
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-// Start session
-session_start();
 
 $contestid = $_SESSION['contest_ID'];
 $uname = $_SESSION["username"];
@@ -23,7 +21,7 @@ $uname = $_SESSION["username"];
     <title>Contest Details</title>
     <style type="text/css">
     body{
-    background-color: rgb(99,128,107)
+    background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1))
     }
     fieldset
     {        
@@ -55,8 +53,7 @@ $uname = $_SESSION["username"];
     }
 
     .header a.logo {
-      font-size: 30px;
-    font-weight: bold;
+      font-size: 25px;
       
     }
     .form
@@ -112,7 +109,7 @@ $uname = $_SESSION["username"];
 
     .styled-table2 {
         border-collapse: collapse;
-        margin-left:80px; 
+        margin-left:30px; 
         margin-top:auto;
         font-size: 0.9em;
         font-family: sans-serif;
@@ -202,26 +199,46 @@ $uname = $_SESSION["username"];
 .btn-group3 button:hover {
   background-color: #0E5225;
 }
+.btn-group4  {
+  margin: auto;
+  background-color: #0E5225; 
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  cursor: pointer; /* Pointer/hand icon */
+  float: center; /* Float the buttons side by side */
+}
 
  </style>
 </head>
 <body>
 
   <?php
- 
+          
+        
+  $name_check = "SELECT count(username) FROM participations WHERE username = '".$uname."' and contest_ID = '".$contestid."' ";
+  $check = $conn->query($name_check);
+  $check_result = $check->fetch_row();
 
-        $sql = "SELECT name FROM contest WHERE contest_ID='".$contestid."'";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $name = $row['name'];
+  if($check_result[0] == 0){
+    echo '<script type="text/javascript">'; 
+    echo 'alert("You did not participate in this contest");'; 
+    echo 'window.location.href = "past_contests_user.php";';
+    echo '</script>';
+   }
 
-         $sql2 = "SELECT first_name, last_name FROM participant WHERE username='".$uname."'";
-    
-          $result2 = $conn->query($sql2);
-          $row2 = $result2->fetch_assoc();
+  else{
+  $sql = "SELECT name FROM contest WHERE contest_ID='".$contestid."'";
+  $result = $conn->query($sql);
+  $row = $result->fetch_assoc();
+  $name = $row['name'];
 
-          $fname = $row2['first_name'];
-          $lname = $row2["last_name"];
+   $sql2 = "SELECT first_name, last_name FROM participant WHERE username='".$uname."'";
+
+    $result2 = $conn->query($sql2);
+    $row2 = $result2->fetch_assoc();
+
+    $fname = $row2['first_name'];
+    $lname = $row2["last_name"];
 
   ?> 
 
@@ -236,36 +253,65 @@ $uname = $_SESSION["username"];
 
 <?php
 
-$sum = 0;
-$sql = "SELECT round_number, marks_awarded FROM submission WHERE contest_ID='".$contestid."' AND participant_username = '".$uname."'
-           ORDER BY round_number";
-        $result = $conn->query($sql);
-        echo<<<HTML
-         <table class="styled-table"><thead>
-        HTML;
-         echo "<th>"."Participant Name"."</th>";
-         echo "<th> $fname $lname </th>";
+$get_sum =  "SELECT sum(total) as total_marks From 
+            (SELECT max(marks_awarded) as total FROM submission WHERE contest_ID='".$contestid."' AND participant_username = '".$uname."'
+            GROUP BY round_number) as Y";
+$summation = $conn->query($get_sum);
+$sum = $summation->fetch_row();
 
-        while ($row = $result->fetch_row() ) {
-        echo "<tr>";
-        echo "<th> Round $row[0] </th>";
-        echo "<th> $row[1] </th>"; 
-        $sum = $sum + $row[1];
-      }
-      echo "</thead></table>"; 
+$sql = "SELECT round_number, max(marks_awarded) FROM submission WHERE contest_ID='".$contestid."' AND participant_username = '".$uname."'
+        GROUP BY round_number";
+$result = $conn->query($sql);
+?>
+ <table class="styled-table"><thead>
+<?php
+ echo "<th>"."Participant Name"."</th>";
+ echo "<th> $fname $lname </th>";
+ echo "<th>"."Submission"."</th>";
 
-      echo "</thead></table>";
-      echo "<br>";
-      echo<<<HTML
-        <table class="styled-table"><thead>
-        HTML;
-        echo "<th>"."Total"."</th>";
-        echo "<th> $sum </th>"; 
+while ($row = $result->fetch_row() ) {
+echo "<tr>";
+echo "<th> Round $row[0] </th>";
+echo "<td> $row[1] </td>"; 
+?>
+
+<td> <button id= "<?php echo $row[0]; ?>" onclick="id_store(this.id)"  class="btn-group4" style="width:60%"> View </button> </td>
+<?php
+}
+echo "</thead></table>"; 
+
+echo "</thead></table>";
+echo "<br>";
+?>
+
+<table class="styled-table2"><thead>
+<?php
+echo "<th>"."Total Score"."</th>";
+echo "<td> $sum[0] </td>"; 
+echo "<td> </td>"; 
         
         $conn->close();
+      }
 ?> 
 
 </div>
+
+<script type="text/javascript">
+  function id_store(clicked_id)
+  {
+    var res = parseInt(clicked_id);
+    var element = document.getElementById("cid");
+    element.value = res;
+    element.form.submit();
+    
+    header('Location: my_stats.php'); 
+  } 
+
+  </script>
+
+<form action="round_submissions_user.php" method="post">
+<input type="hidden" name="cid" id="cid">
+</form>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
-
 include "connect.php";
+session_start();
 
 
 // Create connection
@@ -10,9 +10,6 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-// Start session
-session_start();
 
 ?>
 
@@ -24,7 +21,7 @@ session_start();
     <title>Contest Details</title>
     <style type="text/css">
         body{
-        background-color: rgb(99,128,107)
+        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1))
         }
         fieldset
         {        
@@ -317,9 +314,9 @@ else
         <fieldset>
             <legend> Edit Contest Details </legend>
             <form name="register" autocomplete="off" action="edit_contest2.php" method="post">
-                <input name="name" type="text" placeholder="Enter new contest name" ><br>
-                <input name="start_time" type="text" placeholder="Enter new start time" ><br>
-                <input name="duration" type="text" placeholder="Enter new duration" ><br>
+                <input name="name" type="text" placeholder="Enter new contest name" maxlength="20" ><br>
+                <input name="start_time" type="text" placeholder="Enter new start time" pattern="\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}"><br>
+                <input name="duration" type="text" placeholder="Enter new duration" pattern="\d{1,10}" maxlength="10" ><br>
                 <br>
                 <input name="submit" type="submit">
             </form>
@@ -333,14 +330,13 @@ else
 
 $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$contest_ID."' ORDER BY round_number";
         $result = $conn->query($sql);
-        echo<<<HTML
+        ?>
          <table class="styled-table"><thead>
-        HTML;
+        <?php
          echo "<th>"."Round #"."</th>";
         echo "<th>"."Title"."</th>";
         echo "<th>"."Total Marks"."</th>";
         echo "<th>".""."</th><th>".""."</th>";
-        //echo '<table border="1">';
         while ($row = $result->fetch_row()) {
         echo "<tr>";
           
@@ -348,12 +344,10 @@ $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$
           echo "<td>$row[$i]</td>";
         }
 
-        echo <<<HTML
-        <td><div class="btn-group-edit"><button id=$row[0] onclick="edit_round(this.id)"  style="width:100%">Edit</button></div></td>
-        HTML;
-        echo <<<HTML
-        <td><div class="btn-group-delete"><button id="delete$row[0]" onclick="delete_round(this.id)"  style="width:100%">Delete</button></div></td>
-        HTML;
+        ?>
+        <td><div class="btn-group-edit"><button id= "<?php echo $row[0]; ?>" onclick="edit_round(this.id)"  style="width:100%">Edit</button></div></td>
+        <td><div class="btn-group-delete"><button id="delete <?php $row[0]; ?>" onclick="delete_round(this.id)"  style="width:100%">Delete</button></div></td>
+        <?php
         echo "</tr>";
       }
       echo "</thead></table>"; 
@@ -365,9 +359,9 @@ $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$
     <script type="text/javascript">
         function edit_round(round_number)
         {
-          console.log(round_number);
+          console.log(parseInt(round_number));
           var element = document.getElementById("round_addition_form");
-          element.value = round_number;
+          element.value = parseInt(round_number);
           element.form.submit();
         }
         function delete_round(round_number)

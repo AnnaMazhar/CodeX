@@ -5,7 +5,7 @@
     <title>Contest Participants</title>
     <style type="text/css">
         body{
-        background-color: rgb(99,128,107);
+        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
         font-family: Arial, Helvetica,sans-serif;
         }
         .contest{
@@ -31,99 +31,116 @@
 
 
         .header b {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  color: black;
-  text-align: center;
-  padding: 20px;
-  text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
-}       
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        color: black;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }       
 
-.header {
-  overflow: hidden;
-  background-color: #f1f1f1;
-  padding: 30px 10px;
-}
+      .header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+        padding: 30px 10px;
+      }
 
-.header a {
-  
-  float: left;
-  color: black;
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
-}
+      .header a {
+        
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }
 
-.header a.logo {
-  font-family: Arial, Helvetica,sans-serif;
-  font-size: 25px;
-  
-}
+      .header a.logo {
+        font-family: Arial, Helvetica,sans-serif;
+        font-size: 25px;
+        
+      }
 
-.margin-auto{
-  margin: auto;
-}
+      .margin-auto{
+        margin: auto;
+      }
 
-table{
-  margin-left:auto; 
-    margin-right:auto;
-    margin-top:auto;
-  
+      table{
+        margin-left:auto; 
+          margin-right:auto;
+          margin-top:auto;
+        
 
-  top: 10%;
-  align: center;
-  border: 1px solid black;
-  border-collapse: collapse;
-  text-align: center;
-  width: 75%;
-  background-color: grey; 
-}
+        top: 10%;
+        align: center;
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        width: 75%;
+        background-color: grey; 
+      }
 
-th, td {
-  height: 5px;
-  padding: 10px;
-}
+      th, td {
+        height: 5px;
+        padding: 10px;
+      }
 
-.btn-group button {
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  width:170px;
-  height: 20px;
-  align:center;
-}
+      .btn-group button {
+        background-color: #0E5225; 
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        cursor: pointer; /* Pointer/hand icon */
+        width:170px;
+        height: 20px;
+        align:center;
+      }
 
-.btn-group2 button {
-  align: center;
-  background-color: red; 
-  border: 1px solid red; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  width:170px;
-  height: 20px;
-  align:center;
-  
-}
+      .btn-group2 button {
+        align: center;
+        background-color: red; 
+        border: 1px solid red; /* Green border */
+        color: white; /* White text */
+        cursor: pointer; /* Pointer/hand icon */
+        width:170px;
+        height: 20px;
+        align:center;
+        
+      }
 
-.btn-groupback button {
-  margin: auto;
-  position: absolute;
-  top: 50px;
-  right: 40px;
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
+      .btn-group3 button {
+        position: absolute;
+        top: 50px;
+        right: 15px;
+        background-color: #0E5225; 
+        border: 1px solid green; 
+        color: white; 
+        padding: 10px 24px;
+        cursor: pointer;
+        float: left; 
+      }
+
+      .btn-group3 button:hover {
+        background-color: #11346b;
+      }
+
+
+      .btn-groupback button {
+        margin: auto;
+        position: absolute;
+        top: 50px;
+        right: 40px;
+        background-color: #0E5225; 
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        cursor: pointer; /* Pointer/hand icon */
+        float: left; /* Float the buttons side by side */
+      }
 
     </style>
 </head>
@@ -180,12 +197,10 @@ else
 
         echo "<table class=center> ";
         echo "<th>"."Participant"."</th>";
-        //echo "<th>"."Submission"."</th>";
-        //echo "<th>"."Disqualification"."</th>";
         echo "<th>".""."</th>";
         echo "<th>".""."</th>";
 
-        //echo '<table border="1">';
+       
         while ($row = $result->fetch_row()) {
         echo "<tr>";
           
@@ -229,7 +244,7 @@ $conn->close();
 ?>
 </div>
 
-<div class="btn-groupback">
+<div class="btn-group3">
   <button onclick="back('<?php echo $contestid;?>')" style="width:200px">Back</button>
   </div>
 

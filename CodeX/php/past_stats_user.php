@@ -1,5 +1,6 @@
 <?php
 include "connect.php";
+session_start();
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -8,9 +9,6 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-// Start session
-session_start();
 
 ?>
 
@@ -22,7 +20,7 @@ session_start();
     <title>Contest Details</title>
     <style type="text/css">
         body{
-        background-color: rgb(99,128,107)
+        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1))
         }
         fieldset
         {        
@@ -223,6 +221,7 @@ session_start();
 
         // Get Contest ID through POST
         $contestid = $_POST['cid'];
+        $uname = $_SESSION["username"];
 
         // Set Session Variable
         $_SESSION['contest_ID'] = $contestid;
@@ -247,23 +246,31 @@ session_start();
 </div>
 <br>
 
-<div class="btn-group3">
-    <button id=$contestid onclick="id_store2(this.id)"  style="width:15%">My Performance</button>
-</div>
 
+<div class="btn-group3">
+    <button id= "<?php echo $contestid; ?>" onclick="id_store2(this.id)"  style="width:15%">My Performance</button>
+</div>
 <?php
 
-$sum = 0;
-$count = 0;
-$lowest =10000; 
-$highest = 0;
-$avg = 0;
 
-$sql = "SELECT sum(marks_awarded) AS summ, participant_username FROM submission WHERE contest_ID='".$contestid."' GROUP BY participant_username";
+// To get stats
+$calc_stats = "SELECT avg(total_marks) as final_avg, min(total_marks) as final_min, max(total_marks) as final_max
+FROM (SELECT participant_username,  SUM(marks_awarded2) as total_marks
+FROM (SELECT participant_username, max(marks_awarded) as marks_awarded2 FROM submission WHERE contest_ID = '".$contestid."' GROUP BY round_number, participant_username) as X
+GROUP BY participant_username) as Y";
+$stats = $conn->query($calc_stats);
+$get_stats = $stats->fetch_row();
+
+// To calculate Each users marks
+$sql = "SELECT SUM(marks_awarded2) as total_marks, participant_username
+        FROM (SELECT participant_username, max(marks_awarded) as marks_awarded2 FROM submission WHERE contest_ID = '".$contestid."' GROUP BY round_number, participant_username) as X
+        GROUP BY participant_username";
+$result = $conn->query($sql);
+
         $result = $conn->query($sql);
-        echo<<<HTML
+        ?>
         <table class="styled-table"><thead>
-        HTML;
+        <?php
         echo "<th>"."Participant Name"."</th>";
         echo "<th>"."Total Marks"."</th>";
    
@@ -271,47 +278,36 @@ $sql = "SELECT sum(marks_awarded) AS summ, participant_username FROM submission 
         echo "<tr>";
         echo "<td> $row[1] </td>";
         echo "<td> $row[0] </td>";
-        $sum = $sum + $row[0];
-        $count = $count + 1;
-        if($row[0] < $lowest){
-          $lowest = $row[0];
-        }
-        if($row[0]> $highest){
-          $highest = $row[0];
-        }
       }
-
-      if($count!=0)
-        {$avg = $sum/$count;}
-
+      
       echo "</thead></table>";
       echo "<br>";
-      echo<<<HTML
+      ?>
         <table class="styled-table"><thead>
-        HTML;
+      <?php
 
         echo "<th>"."Mean"."</th>";
         echo "<th>"."Highest"."</th>";
         echo "<th>"."Lowest"."</th>";
         echo "<tr>";
-        echo "<th> $avg </th>";
-        echo "<th> $highest </th>";
-        echo "<th> $lowest </th>";
+        echo "<td> $get_stats[0] </td>";
+        echo "<td> $get_stats[2] </td>";
+        echo "<td> $get_stats[1] </td>";
       echo "<br>";
       echo "</thead></table>";
       echo "<br>";
 
 
     for($i = 1; $i <= $num_rounds; $i++){
-      echo<<<HTML
+      ?>
         <table class="styled-table"><thead>
         <tr>
-        <th> Round $i </th>
+        <th> Round <?php echo $i; ?> </th>
         <td><div class="btn-group4">
-        <button id=$i onclick="id_store(this.id)"  style="width:60%"> View Stats</button>
+        <button id= "<?php echo $i; ?>" onclick="id_store(this.id)"  style="width:60%"> View Stats</button>
         </div></td>
         </tr>
-        HTML;
+        <?php
         echo "</thead></table>";
     }
 
@@ -321,7 +317,7 @@ $sql = "SELECT sum(marks_awarded) AS summ, participant_username FROM submission 
 <script type="text/javascript">
   function id_store(clicked_id)
   {
-    var res = clicked_id;
+    var res = parseInt(clicked_id);
     var element = document.getElementById("cid");
     element.value = res;
     element.form.submit();
@@ -331,7 +327,7 @@ $sql = "SELECT sum(marks_awarded) AS summ, participant_username FROM submission 
 
   function id_store2(clicked_id)
   {
-    var res = clicked_id;
+    var res = parseInt(clicked_id);
     var element = document.getElementById("cid2");
     element.value = res;
     element.form.submit();

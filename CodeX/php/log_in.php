@@ -1,66 +1,77 @@
- <?php
+<?php
 include "connect.php";
 
 $uname = $_POST['username'];
 $pass = $_POST['password'];
+$type = $_POST['type'];
 
+session_start();
+$_SESSION['uname_logininput'] = $uname;
+$_SESSION['pw_logininput'] = $pass;
+$_SESSION['type_login'] = $type;
 
-$sql = "SELECT username, password, first_name, last_name, email, date_of_birth, gender FROM participant WHERE username='".$uname."'";
-
-$result = $conn->query($sql);
-
-// Comment by Talha:
-// We currently allow a participant and an admin to have the same username
-// but by the following way of loggin in, the admin with the same username
-// wont ever be able to log in because the code will think he is a participant :(
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  $row = $result->fetch_assoc();
-  if($row["password"] == $pass)
-  {
-    echo "Welcome ".$row["username"];
-    session_start();
-
-    $_SESSION["is_admin"] = False;
-    $_SESSION["username"] = $uname;
-    
-    echo "Session Variables settt!";
-    header('Location: user_portal.php'); exit;
-  }
-  else
-  {
-    echo "Incorrect Password!";
-  }
-} else {
-
-  $sql = "SELECT username, password, first_name, last_name, email, date_of_birth, gender, organization FROM admin WHERE username='".$uname."'";
+if($type === "participant")
+{
+  $sql = "SELECT username, password, first_name, last_name, email, date_of_birth, gender FROM participant WHERE username='".$uname."'";
   $result = $conn->query($sql);
-  
+
   if ($result->num_rows > 0) {
-  // output data of each row
-  $row = $result->fetch_assoc();
+    $row = $result->fetch_assoc();
     if($row["password"] == $pass)
     {
       echo "Welcome ".$row["username"];
-      session_start();
-      $_SESSION["first_name"] = $row["first_name"];
+      $_SESSION["is_admin"] = False;
       $_SESSION["username"] = $uname;
-      $_SESSION["is_admin"] = True;
+
+      $_SESSION['uname_logininput'] = "";
+      $_SESSION['pw_logininput'] = "";
+      $_SESSION['type_login'] = "";
       
-      echo "Session Variables settt!";
-      
-      header('Location: admin_portal.php'); exit;
+      echo "<script>location.href ='user_portal.php' </script>";
+    //   header('Location: user_portal.php'); exit;
     }
     else
     {
-      echo "Incorrect Password!";
+        echo "<script>location.href ='index.php?status=inc_pw' </script>";
+    //   header("Location: index.php?status=inc_pw");
     }
-    }
-  else{
-    echo "User ".$uname." not found. Sign up!";
+  }
+  else
+  {
+      echo "<script>location.href ='index.php?status=u_d_exists' </script>";
+    // header("Location: index.php?status=u_d_exists");
   }
 }
+else
+{
+
+  $sql = "SELECT username, password, first_name, last_name, email, date_of_birth, gender, organization FROM admin WHERE username='".$uname."'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    if($row["password"] == $pass)
+    {
+      echo "Welcome ".$row["username"];
+      $_SESSION["first_name"] = $row["first_name"];
+      $_SESSION["username"] = $uname;
+      $_SESSION["is_admin"] = True;
+      echo "<script>location.href ='admin_portal.php' </script>";
+    //   header('Location: admin_portal.php'); exit;
+    }
+    else
+    {
+        echo "<script>location.href ='index.php?status=inc_pw' </script>";
+    //   header("Location: index.php?status=inc_pw"); 
+    }
+  }
+  else
+  {
+      echo "<script>location.href ='index.php?status=u_d_exists' </script>";
+    // header("Location: index.php?status=u_d_exists");
+  }
+}
+
 $conn->close();
 
 ?> 

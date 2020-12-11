@@ -1,3 +1,6 @@
+<?php
+include "connect.php";
+session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +9,7 @@
     <title>Register / Login</title>
     <style type="text/css">
         body{
-        background-color: rgb(99,128,107)
+        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
         }
         .btn-group button {
       position: absolute;
@@ -25,27 +28,8 @@
 
     </style>
 
+
 <?php
-
-$servername = "localhost";
-$username = "debian-sys-maint";
-$password = "NVxKE4bCYGO8nV9Y";
-$dbname = "Code-X";
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "Code-X";
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Start session
-session_start();
-
 // If session doesnt have relevant variables
 if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
 {
@@ -66,16 +50,36 @@ else
         $time_created = date("Y-m-d H:i:s"); // seconds bhi add kar ke dekho
         $start_time = $_POST['start_time'];
         $duration = $_POST['duration'];
-    
+
+        if(strtotime($start_time) < strtotime($time_created)){ // Error in start time
+          echo '<script type="text/javascript">'; 
+          echo 'alert("Start time can not be earlier than Create time");'; 
+          echo 'window.location.href = "../html/add-contest.html";';
+          echo '</script>';
+         }
+        elseif($duration <= 0){
+          echo '<script type="text/javascript">'; 
+          echo 'alert("Contest Duration should be greater than 0 minutes");'; 
+          echo 'window.location.href = "../html/add-contest.html";';
+          echo '</script>';
+        } 
+
+        else { 
         $sql = "INSERT INTO contest (name, admin_username, time_created, start_time, duration) VALUES ('$name', '$admin_username', '$time_created', '$start_time', '$duration')";
     
         if ($conn->query($sql) === TRUE) {
-    
-            echo "<h1> New Contest has been successfully created! </h>";
-            
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+            echo '<script type="text/javascript">'; 
+            echo 'alert("New contest has been successfully created");'; 
+            echo 'window.location.href = "admin_portal.php";';
+            echo '</script>';  
+        } 
+        else {
+            echo '<script type="text/javascript">'; 
+            echo 'alert("An error occured while contest creation");'; 
+            echo 'window.location.href = "../html/add-contest.html";';
+            echo '</script>'; }
+
+      }
     }
 }
 
@@ -85,8 +89,5 @@ $conn->close();
 </head>
 <body>
 
-    <div class="btn-group">
-    <button onclick="document.location='admin_portal.php'"  style="width:25%">Return to Admin Portal</button>
-  </div>
 </body>
 </html>

@@ -1,3 +1,7 @@
+<?php
+include "connect.php";
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +9,7 @@
     <title>Contest Details</title>
     <style type="text/css">
     body{
-    background-color: rgb(99,128,107);
+    background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
     font-family: Arial, Helvetica,sans-serif;
     }
     .header {
@@ -134,7 +138,6 @@ th, td {
 
 <div>
 <?php
-include "connect.php";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -151,81 +154,62 @@ function timeAddition( $time, $plusMinutes ) {
   return $newTime;
 }
 
-// Start session
-session_start();
+  date_default_timezone_set("Asia/Karachi");
+  //$username = $_SESSION['username'];
 
-// If session doesnt have relevant variables
-// if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
-// {
-//     echo "Nope, Bye";
-// }
-//else
-//{
-    // if (!($_SESSION["is_admin"]))
-    // {
-    //     echo $_SESSION["is_admin"];
-    //     echo "Again, Bye";
-    // }
-    // else
-    // {   
-        date_default_timezone_set("Asia/Karachi");
-        //$username = $_SESSION['username'];
+  $currentdt = new DateTime();
+  //echo $currentdt->format('Y-m-d H:i:s');
 
-        $currentdt = new DateTime();
-        //echo $currentdt->format('Y-m-d H:i:s');
-
-        $sql = "SELECT * FROM contest ORDER BY contest_ID";
-        $result = $conn->query($sql);
-        echo "<table class=center> ";
-        echo "<th>"."Contest ID"."</th>";
-        echo "<th>"."Contest Name"."</th>";
-        echo "<th>"."Admin"."</th>";
-        echo "<th>"."Creation Time"."</th>";
-        echo "<th>"."Starting Time"."</th>";
-        echo "<th>"."Ending Time"."</th>";
-        echo "<th>".""."</th>";
-        //echo '<table border="1">';
-        while ($row = $result->fetch_row()) {
-        echo "<tr>";
-          
-          for($i = 0; $i < $result->field_count; $i++){
-            if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5]) ){
-              if ($i != 5)
-              echo "<td>$row[$i]</td>";
-              if ($i == 5)
-              {
-                $time = timeAddition($row[4],$row[$i]);
-                echo "<td>$time</td>";
-              }
-          }
-        }
-
-        if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5])){
-        echo <<<HTML
-        <td><div class="btn-group">
-        <button id=$row[0] onclick="id_store(this.id)"  style="width:100%">Statistics</button>
-        </div></td>
-        HTML;
-        }
-
-        echo <<<HTML
-        <script type="text/javascript">
-        function id_store(clicked_id)
+  $sql = "SELECT * FROM contest ORDER BY start_time DESC";
+  $result = $conn->query($sql);
+  echo "<table class=center> ";
+  echo "<th>"."Contest ID"."</th>";
+  echo "<th>"."Contest Name"."</th>";
+  echo "<th>"."Admin"."</th>";
+  echo "<th>"."Creation Time"."</th>";
+  echo "<th>"."Starting Time"."</th>";
+  echo "<th>"."Ending Time"."</th>";
+  echo "<th>".""."</th>";
+  //echo '<table border="1">';
+  while ($row = $result->fetch_row()) {
+  echo "<tr>";
+    
+    for($i = 0; $i < $result->field_count; $i++){
+      if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5]) ){
+        if ($i != 5)
+        echo "<td>$row[$i]</td>";
+        if ($i == 5)
         {
-          var res = clicked_id;
-          var element = document.getElementById("cid");
-          element.value = res;
-          element.form.submit();
-          
-          header('Location: past_stats.php'); 
-        } 
-        </script>
-        HTML;
-     
-      }
-      echo "</table>";        
-   // }
-//}
+          $time = timeAddition($row[4],$row[$i]);
+          echo "<td>$time</td>";
+        }
+    }
+  }
+
+  if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5])){
+?>
+  <td><div class="btn-group">
+  <button id= "<?php echo $row[0]; ?>" onclick="id_store(this.id)"  style="width:100%">Statistics</button>
+  </div></td>
+<?php
+  }
+?>
+
+  <script type="text/javascript">
+  function id_store(clicked_id)
+  {
+    var res = parseInt(clicked_id);
+    var element = document.getElementById("cid");
+    element.value = res;
+    element.form.submit();
+    
+    header('Location: past_stats.php'); 
+  } 
+  </script>
+<?php
+
+}
+echo "</table>";        
 
 $conn->close();
 

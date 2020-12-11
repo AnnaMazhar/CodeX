@@ -1,3 +1,7 @@
+<?php
+include "connect.php";
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +9,7 @@
     <title>Contest Details</title>
     <style type="text/css">
     body{
-    background-color: rgb(99,128,107);
+    background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
     font-family: Arial, Helvetica,sans-serif;
     }
     .header {
@@ -134,7 +138,6 @@ th, td {
 
 <div>
 <?php
-include "connect.php";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -151,16 +154,13 @@ function timeAddition( $time, $plusMinutes ) {
   return $newTime;
 }
 
-// Start session
-session_start();
-
         date_default_timezone_set("Asia/Karachi");
         //$username = $_SESSION['username'];
 
         $currentdt = new DateTime();
         //echo $currentdt->format('Y-m-d H:i:s');
 
-        $sql = "SELECT * FROM contest ORDER BY contest_ID";
+        $sql = "SELECT * FROM contest ORDER BY start_time desc";
         $result = $conn->query($sql);
         echo "<table class=center> ";
         echo "<th>"."Contest ID"."</th>";
@@ -187,18 +187,18 @@ session_start();
         }
 
         if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5])){
-        echo <<<HTML
+        ?>
         <td><div class="btn-group">
-        <button id=$row[0] onclick="id_store(this.id)"  style="width:100%">Statistics</button>
+        <button id= "<?php echo $row[0]; ?>" onclick="id_store(this.id)"  style="width:100%">Statistics</button>
         </div></td>
-        HTML;
+        <?php
         }
-
-        echo <<<HTML
+        ?>
+        
         <script type="text/javascript">
         function id_store(clicked_id)
         {
-          var res = clicked_id;
+          var res = parseInt(clicked_id);
           var element = document.getElementById("cid");
           element.value = res;
           element.form.submit();
@@ -206,7 +206,7 @@ session_start();
           header('Location: past_stats_user.php'); 
         } 
         </script>
-        HTML;
+        <?php
      
       }
       echo "</table>";        
