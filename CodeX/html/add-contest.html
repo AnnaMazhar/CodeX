@@ -4,9 +4,13 @@
     <meta charset="utf-8">
     <title>Register / Login</title>
     <style type="text/css">
-    	body{
-        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1)); 
-    	}
+    body { 
+        margin: 0;
+        font-family: URW Gothic L;
+        
+        /* background-color: rgb(99,128,107); */
+        /* background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1)) */
+      }
         fieldset
         {
         margin-left: auto;
@@ -18,41 +22,54 @@
     	margin-right: auto;
     	}
       .btn-group2 button {
-      position: absolute;
-      top: 40px;
-      right: 15px;
-      background-color: #0E5225; 
-      border: 1px solid green; /* Green border */
-      color: white; /* White text */
-      padding: 10px 24px; /* Some padding */
-      cursor: pointer; /* Pointer/hand icon */
-      float: left; /* Float the buttons side by side */
-    }
+        position: absolute;
+        top: 40px;
+        right: 38px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 12px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+        /* float: right; */
+      }
 
-    .btn-group2 button:hover {
-      background-color: #11346b;
-    }
-        .header {
-          overflow: hidden;
-          background-color: #f1f1f1;
-          padding: 25px 10px;
-        }
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        /* -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57); */
+        transition: all 0.3s ease 0s;
+      }
+      .header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+        box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        /* -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7); */
+        padding: 40px 10px;
+      }
 
-        .header a {
-          float: left;
-          color: black;
-          text-align: center;
-          padding: 12px;
-          text-decoration: none;
-          font-size: 18px; 
-          line-height: 25px;
-          border-radius: 4px;
-        }
+      .header a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }
 
-        .header a.logo {
-          font-size: 25px;
-          font-weight: bold;
-        }
+      .header a.logo {
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+      }
     	.form
     	{
     	margin-top:5em;
