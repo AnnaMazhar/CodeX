@@ -1,17 +1,6 @@
 <?php
 
-$servername = "localhost";
-$username = "debian-sys-maint";
-$password = "NVxKE4bCYGO8nV9Y";
-$dbname = "Code-X";
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include "connect.php";
 
 // Start session
 session_start();
@@ -56,112 +45,135 @@ $conn->close();
     
     <title>Admin Details</title>
     <style type="text/css">
-        body{
-        background-color: rgb(99,128,107)
-        }
+    body{
+        margin: 0;
+      font-family:  URW Gothic L;
+      }
+      .header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+        padding: 40px 10px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+      }
+
+      .header a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }
+      .header a.logo {
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+
+      }
         fieldset
         {        
           position: absolute;
-          top: 140px;
-          right: 500px;
+          top: 240px;
+          right: 100px;
           width: 10em
         }
-        input[type=text] {
-          border: 2px solid #555;
-          outline: none;
-        }
+    input[type=text] {
+      border: 2px solid #555;
+      outline: none;
+    }
 
-        input[type=text]:focus{
-          background-color: lightblue;
-        }
-        input[type=password] {
-          border: 2px solid #555;
-          outline: none;
-        }
+    input[type=text]:focus{
+      background-color: lightblue;
+    }
+    input[type=password] {
+      border: 2px solid #555;
+      outline: none;
+    }
 
-        input[type=password]:focus{
-          background-color: lightblue;
-        }
-        input[type=submit] {
-            color: white;
-          background-color: #11346b;
-        }
-        input[type=submit]:hover {
-          background-color: #3e8e41;
-        }
+    input[type=password]:focus{
+      background-color: lightblue;
+    }
 
-        legend{
-        margin-left: auto;
-        margin-right: auto;
-        }
-        .header {
-          overflow: hidden;
-          background-color: #f1f1f1;
-          padding: 30px 10px;
-        }
-
-        .header a {
-          float: left;
-          color: black;
-          text-align: center;
-          padding: 12px;
-          text-decoration: none;
-          font-size: 18px; 
-          line-height: 25px;
-          border-radius: 4px;
-        }
-
-        .header a.logo {
-          font-size: 25px;
-          font-weight: bold;
-        }
-        .form
+    legend{
+        color:#333;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    
+    .form
+    {
+        /* background-color: #f1f1f1; */
+        color: white;
+    margin-top: 0px;
+    }
+    tr, td, th
         {
-            background-color: #f1f1f1;
+            border-style: groove;
+            border-width: 0cm;
+            color: rgba(0, 0, 0, 0.705);
+            /* border-color: rgba(158, 94, 105, 0.4); */
+            background-color: rgba(64, 65, 66, 0.1);
+            padding: 10px 20px;
+            text-align: center;
+            transition: background-color 2s, border-radius 2s;
+        }
+
+        table
+        {
+            margin-top: 5em;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        th
+        {
             color: white;
-        margin-top: 0px;
-        }
-        .styled-table {
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            border-top-left-radius: 0.3cm;
+            border-top-right-radius: 0.3cm;
+            border-bottom-width: 0.1cm;
+            text-transform: uppercase;
+            border-color: #000000;
+            background-color:#333;
         }
 
-        .styled-table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
-        }
+        .btn-group2 button {
+        position: absolute;
+        right: 38px;
+        top: 40px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
 
-        .styled-table th,
-        .styled-table td {
-        padding: 12px 15px;
-        }
-            .styled-table tbody tr {
-                border-bottom: 1px solid #dddddd;
-            }
-
-            .styled-table tbody tr:nth-of-type(even) {
-                background-color: #f3f3f3;
-            }
-
-            .styled-table tbody tr:last-of-type {
-                border-bottom: 2px solid #009879;
-            }
-
-        .styled-table tbody tr.active-row {
-        font-weight: bold;
-        color: #009879;
-        }
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
+    
     </style>
 </head>
 <body>
 
     <div class="header">
   <a class="logo"> View and Edit Admin Profile </a>
+  <div class="btn-group2">
+    <button onclick="document.location='admin_portal.php'"  style="width:10%">Back</button>
+  </div>
   </div>
 
     <table class="styled-table">

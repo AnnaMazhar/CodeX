@@ -34,11 +34,11 @@ else
 }
 
 function redirect_to_contest_details($contest_ID) {
-    echo <<<HTML
+    ?>
         <!DOCTYPE html>
         <html>
         <body><form action="edit_contest.php" method="post">
-        <input type="hidden" name="cid" id="cid" value="$contest_ID">
+        <input type="hidden" name="cid" id="cid" value="<?php echo $contest_ID; ?>">
         </form>
         <script type="text/javascript"> 
             window.onload=function(){
@@ -48,7 +48,7 @@ function redirect_to_contest_details($contest_ID) {
         </script>
         </body>
         </html>
-    HTML;
+    <?php
 }
 
 $conn->close();

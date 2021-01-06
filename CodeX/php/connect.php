@@ -1,16 +1,20 @@
 <?php
 
 // $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "Code-X";
+
+// $servername = "localhost";
 // $username = "debian-sys-maint";
+// $password = "NVxKE4bCYGO8nV9Y";
 // $password = "WjniZbWoWwngK07Y";
 // $dbname = "Code-X";
 
 $servername = "localhost";
-// $username = "root";
-// $password = "";
-$username = "debian-sys-maint";
-$password = "NVxKE4bCYGO8nV9Y";
-$dbname = "Code-X";
+$username = "id15650265_mycat";
+$password = "*CW(1k{%3{0xw{J%";
+$dbname = "id15650265_codex";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);

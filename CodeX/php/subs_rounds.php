@@ -1,10 +1,11 @@
 <?php
 
 include "connect.php";
-$participant = $_POST['pid'];
-$contest = $_GET['c_id'];
+
 // Start session
 session_start();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +14,7 @@ session_start();
     <meta charset="utf-8"> 
     <title>Participant Submissions</title>
     <style type="text/css">
-       
-       body { 
+         body { 
         margin: 0;
         /* font-family: Arial, Helvetica, sans-serif; */
         font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
@@ -71,31 +71,7 @@ session_start();
         transition: all 0.3s ease 0s;
       }
 
-      .btn-group3 button {
-        position: absolute;
-        right: 38px;
-        top: 65px;
-        border: none;
-        background: #404040;
-        color: #ffffff !important;
-        font-weight: 100;
-        padding: 9px 38px;
-        text-transform: uppercase;
-        border-radius: 6px;
-        display: inline-block;
-        transition: all 0.3s ease 0s;
-      }
 
-      .btn-group3 button:hover {
-        color: #404040 !important;
-        font-weight: 700 !important;
-        letter-spacing: 3px;
-        background: none;
-        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
-        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
-        transition: all 0.3s ease 0s;
-      }
-      
         .margin-auto{
           margin: auto;
         }
@@ -114,7 +90,7 @@ session_start();
 
       table
       {
-          margin-top: 5em;
+          /* margin-top: 5em; */
           margin-left: auto;
           margin-right: auto;
       }
@@ -130,95 +106,70 @@ session_start();
           border-color: #000000;
           background-color:#333;
       }
-      th:hover
-        {
-            background-color: #999;
-        }
 
-       
+      th:hover
+      {
+          background-color: #999;
+      }
+
+   
     </style>
 </head>
 
 
 <body>
 <div class="header">
-<a class="logo"> <?php echo "".$participant."'s" ?> Submissions </a>
+<a class="logo"> Round Submissions </a>
 <div class="btn-group2">
   <button onclick="back()" style="width:200px">Back</button>
   </div>
 </div>
 <br>
 
-<form action="edit_contest.php" method="post">
-<input type="hidden" name="cid" id="cid">
-</form>
-
 <?php
 
-// If session doesnt have relevant variables
-if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
-{
-    echo "Nope, Bye";
+$contest_ID = $_GET["c_id"];
+$round_number = $_GET["r_no"];
+$uname = $_SESSION["username"];
+
+$sql = "SELECT * FROM submission WHERE participant_username='".$uname."' and contest_ID='".$contest_ID."' and round_number='".$round_number."'
+  ORDER BY time_stamp";
+$result = $conn->query($sql);
+echo "<table class=center> ";
+echo "<th>"."Round Number"."</th>";
+echo "<th>"."Time Stamp"."</th>";
+echo "<th>"."Interpretor Result"."</th>";
+echo "<th>"."Marks Awarded"."</th>";
+echo "<th>"."Submitted Code"."</th>";
+
+while ($row = $result->fetch_row()) {
+echo "<tr>";
+  for($i = 0; $i < $result->field_count; $i++){
+  if ($i != 0 && $i != 3 && $i != 4)
+    echo "<td>$row[$i]</td>";
 }
-else
-{
-    if (!($_SESSION["is_admin"]))
-    {
-        echo $_SESSION["is_admin"];
-        echo "Again, Bye";
-    }
-    else
-    {   
-        // Get Participant Username through POST
-        
+$c_id = $row[0];
+$r_no = $row[1];
+$time = ($row[2]);
 
-        $sql = "SELECT * FROM submission WHERE participant_username='".$participant."' and contest_ID='".$contest."' ORDER BY round_number";
-        $result = $conn->query($sql);
-        echo "<table class=center> ";
-        echo "<th>"."Round Number"."</th>";
-        echo "<th>"."Time Stamp"."</th>";
-        
-        echo "<th>"."Interpretor Result"."</th>";
-        echo "<th>"."Marks Awarded"."</th>";
-        echo "<th>"."Submitted Code"."</th>";
-    
-        while ($row = $result->fetch_row()) {
-        echo "<tr>";
-          for($i = 0; $i < $result->field_count; $i++){
-          if ($i != 0 && $i != 3 && $i != 4)
-            echo "<td>$row[$i]</td>";
-        }
-        $c_id = $row[0];
-        $r_no = $row[1];
-        $time = ($row[2]);
-       
-        // Send values to view and grade
-        $loc = "viewandgrade_submission.php?c_id=".$c_id."&r_no=".$r_no."&time=".$time."&pname=".$participant;
-        $click = "document.location = '".$loc."'";
-        echo '<td><button onclick = "'.$click.'" class="button button1">View</button></td>';
-      }
-      echo "</table>";        
-    }
+// Send values to view and grade
+$loc = "live_round_code.php?c_id=".$c_id."&r_no=".$r_no."&time=".$time."&pname=".$uname;
+$click = "document.location = '".$loc."'";
+echo '<td><button onclick = "'.$click.'" class="button button1">View</button></td>';
 }
-
-$conn->close();
-
+echo "</table>";   
 ?>
 
-
-<div>
   <script>
   function back()
   {
-    window.location.href = "view_submission.php";
+    window.location.href = "view_and_attempt_contests.php?c_id=" + "<?php echo $contest_ID; ?>";
   }
-
-  function participants()
-  {
-    window.location.href = "view_submission.php";
-  }
+  
   </script>
-</div>
+  <?php
+  $conn->close();
+  ?>
 </body>
 </html>
   

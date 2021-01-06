@@ -1,3 +1,8 @@
+<?php 
+include "connect.php";
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,26 +11,11 @@
     
     <title>Register / Login</title>
     
-    <!-- <style type="text/css">
+    <style type="text/css">
         body{
-        background-color: #2ecc71
-        }
-        .btn-group button {
-      position: absolute;
-      top: 115px;
-      left: 5px;
-      background-color: #11346b; 
-      border: 1px solid green; /* Green border */
-      color: white; /* White text */
-      padding: 10px 24px; /* Some padding */
-      cursor: pointer; /* Pointer/hand icon */
-      float: left; /* Float the buttons side by side */
-    }
-        .btn-group button:hover {
-      background-color: #3e8e41;
-    }
-
-    </style> -->
+            font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+      }
+    </style>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
@@ -38,13 +28,7 @@
         .some_height {
             height: 80px;
         }
-        /* .no_padding_below {
-            padding-top: 0px;
-        } */
-        /* body{
-            background-color: #2ecc71;
-            font-family: Arial, Helvetica,sans-serif;
-        } */
+       
     </style>
 </head>
 
@@ -54,20 +38,10 @@
 
 <?php
 
-$servername = "localhost";
-$username = "debian-sys-maint";
-$password = "NVxKE4bCYGO8nV9Y";
-$dbname = "Code-X";
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+//include "connect.php";
 
 // Start session
-session_start();
+//session_start();
 
 // If session doesnt have relevant variables
 if (!(isset($_SESSION["contest_ID"]) && isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
@@ -83,11 +57,26 @@ else
     $round_number = $_POST["round_number"];
     $contest_ID = $_SESSION["contest_ID"];
     
-    echo <<<HTML
+    ?>
     <script type="text/javascript">
         console.log($round_number);
     </script>
-    HTML;
+    <?php
+
+    date_default_timezone_set("Asia/Karachi");
+    $time_curr = date("Y-m-d H:i:s");
+    $sql = "SELECT start_time from contest WHERE contest_ID='".$contest_ID."' ";
+    $result = $conn->query($sql);
+    $row = $result->fetch_row();
+    $s_time = $row[0];
+
+    if(strtotime($s_time) < strtotime($time_curr) ) {
+      { echo '<script type="text/javascript">'; 
+        echo 'alert("You can not add rounds after a contest has started");'; 
+        echo 'window.location.href = "contest_details.php";';
+        echo '</script>';}
+        }
+        else{
 
     $title = "";
     $problem_statement = "";
@@ -102,7 +91,6 @@ else
     if ($result->num_rows > 0)
     {
         $row = $result->fetch_assoc();
-
         $_SESSION["is_new_contest"] = False;
 
         $title = $row["title"];
@@ -116,6 +104,8 @@ else
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     $contest_name = $row["name"];
+
+    }
 }
 
 

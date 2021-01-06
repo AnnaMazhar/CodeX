@@ -1,3 +1,10 @@
+<?php
+
+  include "connect.php";
+  include "fetch_name.php";
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,17 +12,21 @@
     
     <title>Attempt in Contests</title>
     <style type="text/css">
-    	body { 
+    	    body { 
         margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
-        
+        /* font-family: Arial, Helvetica, sans-serif; */
+        font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+
+        /* background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1)) */
+        /* background-color: "red"; */
       }
 
       .header {
         overflow: hidden;
         background-color: #f1f1f1;
         padding: 40px 10px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
       }
 
       .header a {
@@ -31,7 +42,9 @@
 
       .header a.logo {
         font-size: 35px;
-        font-weight: bold;
+        font-weight: 100;
+        text-transform: uppercase;
+
       }
       .header b {
         position: absolute;;
@@ -48,65 +61,63 @@
 
       .header b.logo {
         font-size: 18px;
-        font-weight: bold;
-      }
-      table{
-        margin-top: 5em;
-        margin-left: auto;
-    	  margin-right: auto;
-        background-color: white;
-        /* border-radius: 15px */
-
-      }
-      table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        /* border-radius: 15px */
-
-      }
-      th, td {
-        padding: 15px;
-        text-align: left;
-      }
-      .button {
-        border: none;
-        border-radius: 5px;
-        color: white;
-        padding: 4px 8px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-      }
-
-      .button1 {
-        background-color: #4CAF50; 
-        color: white; 
-        border: 2px solid #4CAF50;
-      }
-
-      .button1:hover {
-        background-color: rgb(99,128,107);
-        color: black;
+        font-weight: 100;
       }
 
       .btn-group2 button {
         position: absolute;
-        top: 55px;
-        right: 15px;
-        background-color: #0E5225; 
-        border: 1px solid green; /* Green border */
-        color: white; /* White text */
-        padding: 10px 24px; /* Some padding */
-        cursor: pointer; /* Pointer/hand icon */
-        float: left; /* Float the buttons side by side */
+        right: 38px;
+        top: 48px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
       }
 
       .btn-group2 button:hover {
-        background-color: #11346b;
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
+
+      tr, td, th
+      {
+          border-style: groove;
+          border-width: 0cm;
+          color: rgba(0, 0, 0, 0.705);
+          /* border-color: rgba(158, 94, 105, 0.4); */
+          background-color: rgba(64, 65, 66, 0.1);
+          padding: 10px 20px;
+          text-align: center;
+          transition: background-color 2s, border-radius 2s;
+      }
+
+      table
+      {
+          margin-top: 5em;
+          margin-left: auto;
+          margin-right: auto;
+      }
+
+
+      th
+      {
+          color: white;
+          border-top-left-radius: 0.3cm;
+          border-top-right-radius: 0.3cm;
+          border-bottom-width: 0.1cm;
+          text-transform: uppercase;
+          border-color: #000000;
+          background-color:#333;
       }
 
       .rate {
@@ -165,9 +176,7 @@
 <body>
 
 <?php
-    include "connect.php";
-    include "fetch_name.php";
-
+  
     function timeAddition( $time, $plusMinutes ) {
     $time = DateTime::createFromFormat( 'Y-m-d H:i:s', $time );
     $time->add( new DateInterval( 'PT' . ( (integer) $plusMinutes ) . 'M' ) );
@@ -186,7 +195,7 @@
 <div class="header">
     <a class="logo"> Rounds </a>
     <div class="btn-group2">
-    <button onclick="document.location='user_display_contests.php'"  style="width:10%">Back</button>
+    <button onclick="document.location='user_display_contests.php'" >Back</button>
     </div>
     </div>
 

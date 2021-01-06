@@ -21,7 +21,7 @@ if (!$conn) {
     
     <title>Contest Details</title>
     <style type="text/css">
-        body { 
+          body { 
               margin: 0;
               /* font-family: Arial, Helvetica, sans-serif; */
               font-family: URW Gothic L;
@@ -128,20 +128,6 @@ if (!$conn) {
           border-color: #000000;
           background-color:#333;
       }
-        fieldset
-        {        
-          position: absolute;
-          top: 140px;
-          right: 500px;
-          width: 10em
-        }
-        .form
-        {
-            background-color: grey;
-            color: white;
-        margin-top: 0px;
-        }
-
 
             
     </style>
@@ -155,21 +141,21 @@ if (!$conn) {
 
 
 // If session doesnt have relevant variables
-if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
-{
-    echo "Nopes";
-}
-else
-{
-    if (!($_SESSION["is_admin"]))
-    {
-        echo $_SESSION["is_admin"];
-        echo "<br> Not an admin";
-    }
-    else
-    {
+// if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
+// {
+//     echo "Nopes";
+// }
+// else
+// {
+//     if (!($_SESSION["is_admin"]))
+//     {
+//         echo $_SESSION["is_admin"];
+//         echo "<br> Not an admin";
+//     }
+//     else
+//     {
         // Get Contest ID through POST
-        $contestid = $_POST['cid'];
+        $contestid = $_GET['c_id'];
 
         // Set Session Variable
         $_SESSION['contest_ID'] = $contestid;
@@ -195,15 +181,15 @@ else
         }
         // done getting the next round number
 
-    }
-}
+//     }
+// }
 
 ?> 
 
  <div class="header">
   <a class="logo"> Round Details </a>
   <div class="btn-group2">
-    <button onclick="document.location='live_contests.php'"  style="width:10%">Back</button>
+    <button onclick="document.location='user_display_contests.php'"  style="width:10%">Back</button>
   </div>
 </div>
 
@@ -212,10 +198,10 @@ else
 $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$contest_ID."' ORDER BY round_number";
         $result = $conn->query($sql);
         ?>
-       
+        
          <table class="styled-table"><thead>
         
-        <?php
+        <?php 
          echo "<th>"."Round #"."</th>";
         echo "<th>"."Title"."</th>";
         echo "<th>"."Total Marks"."</th>";

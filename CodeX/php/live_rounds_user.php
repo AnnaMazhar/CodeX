@@ -1,5 +1,6 @@
 <?php
 include "connect.php";
+session_start();
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -10,7 +11,6 @@ if (!$conn) {
 }
 
 // Start session
-session_start();
 
 ?>
 
@@ -21,147 +21,114 @@ session_start();
     
     <title>Contest Details</title>
     <style type="text/css">
-        body{
-        background-color: rgb(99,128,107)
-        }
-        fieldset
-        {        
-          position: absolute;
-          top: 140px;
-          right: 500px;
-          width: 10em
-        }
-        legend{
-        margin-left: auto;
-        margin-right: auto;
-        }
-        .header {
-          overflow: hidden;
-          background-color: #f1f1f1;
-          padding: 30px 10px;
-        }
 
-        .header a {
-          
-          float: left;
-          color: black;
+      body { 
+              margin: 0;
+              /* font-family: Arial, Helvetica, sans-serif; */
+              font-family: URW Gothic L;
+            }
+
+            .header {
+              overflow: hidden;
+              background-color: #f1f1f1;
+              padding: 40px 10px;
+              -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+              -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+            }
+
+            .header a {
+              float: left;
+              color: black;
+              text-align: center;
+              padding: 12px;
+              text-decoration: none;
+              font-size: 18px; 
+              line-height: 25px;
+              border-radius: 4px;
+            }
+
+            .header a.logo {
+              font-size: 35px;
+              font-weight: 100;
+              text-transform: uppercase;
+
+            }
+            .header b {
+              position: absolute;;
+              top: 10px;
+              right: 25px;
+              color: black;
+              text-align: center;
+              padding: 20px;
+              text-decoration: none;
+              font-size: 18px; 
+              line-height: 25px;
+              border-radius: 4px;
+            }
+
+            .header b.logo {
+              font-size: 18px;
+              font-weight: 100;
+            }
+
+            .btn-group2 button {
+              position: absolute;
+              right: 38px;
+              top: 40px;
+              border: none;
+              background: #404040;
+              color: #ffffff !important;
+              font-weight: 100;
+              padding: 9px 38px;
+              text-transform: uppercase;
+              border-radius: 6px;
+              display: inline-block;
+              transition: all 0.3s ease 0s;
+            }
+
+            .btn-group2 button:hover {
+              color: #404040 !important;
+              font-weight: 700 !important;
+              letter-spacing: 3px;
+              background: none;
+              -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+              -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+              transition: all 0.3s ease 0s;
+            }
+
+
+            /*  */
+
+      tr, td, th
+      {
+          border-style: groove;
+          border-width: 0cm;
+          color: rgba(0, 0, 0, 0.705);
+          /* border-color: rgba(158, 94, 105, 0.4); */
+          background-color: rgba(64, 65, 66, 0.1);
+          padding: 10px 20px;
           text-align: center;
-          padding: 12px;
-          text-decoration: none;
-          font-size: 18px; 
-          line-height: 25px;
-          border-radius: 4px;
-        }
+          transition: background-color 2s, border-radius 2s;
+      }
 
-        .header a.logo {
-          font-family: Arial, Helvetica,sans-serif;
-          font-size: 25px;
-          
-        }
-        .form
-        {
-            background-color: grey;
-            color: white;
-        margin-top: 0px;
-        }
+      table
+      {
+          margin-top: 5em;
+          margin-left: auto;
+          margin-right: auto;
+      }
 
-        .rounds-table table{
-          align: center;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .rounds-table thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
 
-        .rounds-table th, .rounds-table td {
-          height: 5px;
-          padding: 10px;
-        }
-
-        .styled-table {
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .styled-table thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
-
-        .styled-table th,
-        .styled-table td {
-        padding: 12px 15px;
-        }
-
-        .btn-group button {
-        position: absolute;
-        top: 45px;
-        right: 17px;
-        background-color: #11346b; 
-        border: 1px solid green; /* Green border */
-        color: white; /* White text */
-        padding: 10px 24px; /* Some padding */
-        cursor: pointer; /* Pointer/hand icon */
-        float: left; /* Float the buttons side by side */
-        }
-        .btn-group button:hover {
-      background-color: #3e8e41;
-    }
-
-    .btn-group button {
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group-edit button {
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group-delete button {
-  background-color: #e74c3c; 
-  border: 1px solid red; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group2 button {
-  position: absolute;
-  top: 50px;
-  right: 15px;
-  background-color: #11346b; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group2 button:hover {
-  background-color: #0E5225;
-}
+      th
+      {
+          color: white;
+          border-top-left-radius: 0.3cm;
+          border-top-right-radius: 0.3cm;
+          border-bottom-width: 0.1cm;
+          text-transform: uppercase;
+          border-color: #000000;
+          background-color:#333;
+      }
 
             
     </style>
@@ -231,9 +198,11 @@ session_start();
 
 $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$contest_ID."' ORDER BY round_number";
         $result = $conn->query($sql);
-        echo<<<HTML
+        ?>
+        
          <table class="styled-table"><thead>
-        HTML;
+        
+        <?php 
          echo "<th>"."Round #"."</th>";
         echo "<th>"."Title"."</th>";
         echo "<th>"."Total Marks"."</th>";

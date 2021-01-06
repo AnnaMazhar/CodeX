@@ -1,46 +1,78 @@
+<?php
+include "connect.php";
+session_start(); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     
-    <title>Register / Login</title>
+    <title>Edit Contest</title>
     <style type="text/css">
-        body{
-        background-color: rgb(99,128,107)
-        }
-        .btn-group button {
-      position: absolute;
-      top: 115px;
-      left: 5px;
-      background-color: #11346b; 
-      border: 1px solid green; /* Green border */
-      color: white; /* White text */
-      padding: 10px 24px; /* Some padding */
-      cursor: pointer; /* Pointer/hand icon */
-      float: left; /* Float the buttons side by side */
-    }
-        .btn-group button:hover {
-      background-color: #3e8e41;
-    }
+        body { 
+        margin: 0;
+        /* font-family: Arial, Helvetica, sans-serif; */
+        font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+      }
+
+      .header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+        padding: 40px 10px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+      }
+
+      .header a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }
+      .header a.logo {
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+
+      }
+
+      .btn-group2 button {
+        position: absolute;
+        right: 38px;
+        top: 40px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
+
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
+
+
 
     </style>
-
+<head>
+<body>
+<div>
 <?php
 
-$servername = "localhost";
-$username = "debian-sys-maint";
-$password = "NVxKE4bCYGO8nV9Y";
-$dbname = "Code-X";
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Start session
-session_start();
 
 // If session doesnt have relevant variables
 if (!(isset($_SESSION["username"]) && isset($_SESSION["is_admin"])))
@@ -56,50 +88,87 @@ else
     }
     else
     {   
-        
+        date_default_timezone_set("Asia/Karachi");
         $contestid = $_SESSION['contest_ID'];
         $name = $_POST['name'];
         $starttime = $_POST["start_time"];
         $duration = $_POST["duration"];
+        $time_curr = date("Y-m-d H:i:s");
+
+        $sql = "SELECT time_created from contest WHERE contest_ID='".$contestid."' ";
+        $result = $conn->query($sql);
+        $row = $result->fetch_row();
+        $creation = $row[0];
+
+        if($starttime !=""){
+            if(strtotime($starttime) < strtotime($time_curr) or strtotime($starttime) < strtotime($creation) ) {
+              echo '<script type="text/javascript">'; 
+              echo 'alert("Start time can not be earlier than Create/Current time");'; 
+              echo 'window.location.href = "contest_details.php";';
+              echo '</script>';
+            }
+            else{
+                $sql = "UPDATE contest SET start_time= '".$starttime."' WHERE contest_ID='".$contestid."' ";
+                if ($conn->query($sql) === TRUE) {
+                echo "Start Time Updated Successfully!";
+                echo "<br>";
+                } else {
+                echo "Error updating starting time: " . $conn->error;
+                echo "<br>";
+                }
+            }
+        }
+
+        if($duration!=""){
+            if($duration <= 0){
+              echo '<script type="text/javascript">'; 
+              echo 'alert("Contest duration should be greater than 0 minutes");'; 
+              echo 'window.location.href = "contest_details.php";';
+              echo '</script>';
+            }
+            else{
+                $sql = "UPDATE contest SET duration= '".$duration."'  WHERE contest_ID='".$contestid."' ";
+                if ($conn->query($sql) === TRUE) {
+                echo "Contest Duration Updated Successfully!";
+                echo "<br>";
+                } else {
+                echo "Error updating duration: " . $conn->error;
+                echo "<br>";
+                }
+            }
+        }
         
         if($name != ""){ $sql = "UPDATE contest SET name= '".$name."' WHERE contest_ID='".$contestid."' ";
         if ($conn->query($sql) === TRUE) {
-        echo "Contest Name Updated Successfully!";
-        echo "<br>";
+        echo '<script type="text/javascript">'; 
+        echo 'alert("All changes made Successfully");'; 
+        echo 'window.location.href = "contest_details.php";';
+        echo '</script>';
         } else {
         echo "Error updating contest name: " . $conn->error;
         echo "<br>";
         } }
-
-        if($starttime != ""){ $sql = "UPDATE contest SET start_time= '".$starttime."' WHERE contest_ID='".$contestid."' ";
-        if ($conn->query($sql) === TRUE) {
-        echo "Start Time Updated Successfully!";
-        echo "<br>";
-        } else {
-        echo "Error updating starting time: " . $conn->error;
-        echo "<br>";
-        } }
-
-        if($duration != ""){ $sql = "UPDATE contest SET duration= '".$duration."'  WHERE contest_ID='".$contestid."' ";
-        if ($conn->query($sql) === TRUE) {
-        echo "Contest Duration Updated Successfully!";
-        echo "<br>";
-        } else {
-        echo "Error updating duration: " . $conn->error;
-        echo "<br>";
-        } }
+      
+        if($name == "" && $duration =="" && $starttime =="")  
+        {
+          echo '<script type="text/javascript">'; 
+          echo 'alert("No changes to make here");'; 
+          echo 'window.location.href = "contest_details.php";';
+          echo '</script>';          
+        }
     }
 }
-
 $conn->close();
 
 ?>
 
-</head>
-<body>
+</div>
+</body>
 
-    <div class="btn-group">
-    <button onclick="document.location='admin_portal.php'"  style="width:25%">Return to Admin Portal</button>
-  </div>
+<body>
+    
+    <div class="btn-group2">
+    <button onclick="document.location='contest_details.php'"  style="width:10%">Back</button>
+    </div>
 </body>
 </html>

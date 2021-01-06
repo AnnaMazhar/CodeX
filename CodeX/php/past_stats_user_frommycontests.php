@@ -19,7 +19,7 @@ if (!$conn) {
     
     <title>Contest Details</title>
     <style type="text/css">
-        body { 
+                body { 
         margin: 0;
         /* font-family: Arial, Helvetica, sans-serif; */
         font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
@@ -49,23 +49,6 @@ if (!$conn) {
         font-weight: 100;
         text-transform: uppercase;
 
-      }
-      .header b {
-        position: absolute;;
-        top: 10px;
-        right: 25px;
-        color: black;
-        text-align: center;
-        padding: 20px;
-        text-decoration: none;
-        font-size: 18px; 
-        line-height: 25px;
-        border-radius: 4px;
-      }
-
-      .header b.logo {
-        font-size: 18px;
-        font-weight: 100;
       }
 
       .btn-group2 button {
@@ -120,37 +103,36 @@ if (!$conn) {
 
       /*  */
 
-      tr, td, th
-      {
-          border-style: groove;
-          border-width: 0cm;
-          color: rgba(0, 0, 0, 0.705);
-          /* border-color: rgba(158, 94, 105, 0.4); */
-          background-color: rgba(64, 65, 66, 0.1);
-          padding: 10px 20px;
-          text-align: center;
-          transition: background-color 2s, border-radius 2s;
-      }
+tr, td, th
+{
+    border-style: groove;
+    border-width: 0cm;
+    color: rgba(0, 0, 0, 0.705);
+    /* border-color: rgba(158, 94, 105, 0.4); */
+    background-color: rgba(64, 65, 66, 0.1);
+    padding: 10px 20px;
+    text-align: center;
+    transition: background-color 2s, border-radius 2s;
+}
 
-      table
-      {
-          /* margin-top: 5em; */
-          margin-left: auto;
-          margin-right: auto;
-      }
+table
+{
+    /* margin-top: 5em; */
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
-      th
-      {
-          color: white;
-          border-top-left-radius: 0.3cm;
-          border-top-right-radius: 0.3cm;
-          border-bottom-width: 0.1cm;
-          text-transform: uppercase;
-          border-color: #000000;
-          background-color:#333;
-      }
-
+th
+{
+    color: white;
+    border-top-left-radius: 0.3cm;
+    border-top-right-radius: 0.3cm;
+    border-bottom-width: 0.1cm;
+    text-transform: uppercase;
+    border-color: #000000;
+    background-color:#333;
+}
             
     </style>
 </head>
@@ -163,7 +145,7 @@ if (!$conn) {
   <?php
 
         // Get Contest ID through POST
-        $contestid = $_POST['cid'];
+        $contestid = $_GET['c_id'];
         $uname = $_SESSION["username"];
 
         // Set Session Variable
@@ -184,7 +166,7 @@ if (!$conn) {
  <div class="header">
   <a class="logo"> <?php echo "Contest Statistics-".$name ?> </a>
   <div class="btn-group2">
-    <button onclick="document.location='past_contests_user.php'"  style="width:15%">Back</button>
+    <button onclick="document.location='user_display_contests.php'"  style="width:15%">Back</button>
   </div>
 </div>
 <br>
@@ -212,7 +194,7 @@ $result = $conn->query($sql);
 
         $result = $conn->query($sql);
         ?>
-        <table><thead>
+        <table class="styled-table"><thead>
         <?php
         echo "<th>"."Participant Name"."</th>";
         echo "<th>"."Total Marks"."</th>";
@@ -247,7 +229,7 @@ $result = $conn->query($sql);
         <tr>
         <td> Round <?php echo $i; ?> </td>
         <td><div class="btn-group4">
-        <button id= "<?php echo $i; ?>" onclick="id_store(this.id)"> View Stats</button>
+        <button id= "<?php echo $i; ?>" onclick="id_store(this.id)" > View Stats</button>
         </div></td>
         </tr>
         <?php

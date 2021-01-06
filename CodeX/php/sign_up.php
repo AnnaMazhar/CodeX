@@ -1,30 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    
-    <title>Register / Login</title>
-    <style type="text/css">
-        body{
-        background-color: rgb(99,128,107)
-        }
-        .btn-group button {
-      position: absolute;
-      top: 65px;
-      left: 15px;
-      background-color: #11346b; 
-      border: 1px solid green; /* Green border */
-      color: white; /* White text */
-      padding: 10px 24px; /* Some padding */
-      cursor: pointer; /* Pointer/hand icon */
-      float: left; /* Float the buttons side by side */
-    }
-        .btn-group button:hover {
-      background-color: #3e8e41;
-    }
-
-    </style>
-
 <?php
 
 include "connect.php";
@@ -38,44 +11,82 @@ $gender = $_POST['gender'];
 $DOB =  $_POST['date_of_birth'];
 $org = $_POST['organization'];
 $type = $_POST['type'];
-  
-if($type === "participant")
+
+session_start();
+
+$_SESSION["uname_su_inp"] = $uname;
+$_SESSION["fname_su_inp"] = $fname;
+$_SESSION["lname_su_inp"] = $lname;
+$_SESSION["pw_su_inp"] = $pass;
+$_SESSION["email_su_inp"] = $email;
+$_SESSION["dob_su_inp"] = $DOB;
+$_SESSION["gender_su_inp"] = $gender;
+$_SESSION["type_su"] = $type;
+if ($type == "admin")
 {
-    $sql = "INSERT INTO participant (username, password, first_name, last_name, email,date_of_birth, gender) VALUES ('$uname', '$pass', '$fname', '$lname', '$email', '$DOB', '$gender')";
-} else {
-    $sql = "INSERT INTO admin (username, password, first_name, last_name, organization, email,date_of_birth, gender) VALUES ('$uname', '$pass', '$fname', '$lname', '$org', '$email', '$DOB', '$gender')";
+    $_SESSION["org_su_inp"] = $org;
 }
 
-if ($conn->query($sql) === TRUE) {
+// DOB check lagao
+date_default_timezone_set("Asia/Karachi");
+$curr_time = strtotime(date('Y-m-d'));
+$DOB_time = strtotime($DOB);
+$min_diff = 6*365*24*60*60; if ($type == "admin") {$min_diff = 18*365*24*60*60;}
+if ($min_diff > ($curr_time - $DOB_time))
+{
+    header("Location: index.php?status=dob_wrong"); exit;
+}
 
-    echo "<h2> Thanks for registering. You are now our valued member! </h2>"; 
-    
-    session_start();
-    $_SESSION["username"] = $uname;
-    if ($type === "participant")
+// Email Len Check:
+if (strlen($email) > 30)
+{
+    header("Location: index.php?status=email_long"); exit;
+}
+
+// Username already existing check
+$sql_checkuname = "SELECT username FROM $type WHERE username='$uname'";
+$result = $conn->query($sql_checkuname);
+if ($result->num_rows > 0) {
+    header("Location: index.php?status=u_exists"); exit;
+}
+else
+{
+    if($type === "participant")
     {
-        $_SESSION["is_admin"] = False;
-        //header('Location: ../../test.html'); exit;
+        $sql_insertion = "INSERT INTO participant (username, password, first_name, last_name, email,date_of_birth, gender) VALUES ('$uname', '$pass', '$fname', '$lname', '$email', '$DOB', '$gender')";
+    } else {
+        $sql_insertion = "INSERT INTO admin (username, password, first_name, last_name, organization, email,date_of_birth, gender) VALUES ('$uname', '$pass', '$fname', '$lname', '$org', '$email', '$DOB', '$gender')";
     }
-    else
-    {
-        $_SESSION["is_admin"] = True;
-        //header('Location: ../../test.html'); exit;
+
+    if ($conn->query($sql_insertion) === TRUE) {
+
+        $_SESSION["username"] = $uname;
+        if ($type === "participant")
+        {
+            $_SESSION["is_admin"] = False;
+        }
+        else
+        {
+            $_SESSION["is_admin"] = True;
+        }
+        
+        $_SESSION["uname_su_inp"] = "";
+        $_SESSION["fname_su_inp"] = "";
+        $_SESSION["lname_su_inp"] = "";
+        $_SESSION["pw_su_inp"] = "";
+        $_SESSION["email_su_inp"] = "";
+        $_SESSION["dob_su_inp"] = "";
+        $_SESSION["gender_su_inp"] = "";
+        $_SESSION["org_su_inp"] = "";
+        $_SESSION["type_su"] = "";
+
+        header("Location: index.php?status=reg_success"); exit;
+        
+    } else {
+        echo "Error: " . $sql_insertion . "<br>" . $conn->error;
     }
-    
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();
 
-?> 
-
-</head>
-<body>
-
-    <div class="btn-group">
-    <button onclick="document.location='../html/index.html'"  style="width:25%">Return to Login Page</button>
-  </div>
-</body>
-</html>
+?>

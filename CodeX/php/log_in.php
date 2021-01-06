@@ -1,11 +1,12 @@
 <?php
 include "connect.php";
+session_start();
 
 $uname = $_POST['username'];
 $pass = $_POST['password'];
 $type = $_POST['type'];
 
-session_start();
+
 $_SESSION['uname_logininput'] = $uname;
 $_SESSION['pw_logininput'] = $pass;
 $_SESSION['type_login'] = $type;

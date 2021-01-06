@@ -1,6 +1,12 @@
 <?php
     include "connect.php";
 
+    function timeAddition( $time, $plusMinutes ) {
+    $time = DateTime::createFromFormat( 'Y-m-d H:i:s', $time );
+    $time->add( new DateInterval( 'PT' . ( (integer) $plusMinutes ) . 'M' ) );
+    $newTime = $time->format( 'Y-m-d H:i:s' ); 
+    return $newTime; }
+
     //username fetch
     session_start();
     if (!($_SESSION["username"]))
@@ -25,6 +31,20 @@
 
     $contest_ID = $_POST["contest_ID"];
     $round_number = $_POST["round_number"];
+
+    $sql2 = "SELECT start_time, duration from contest WHERE contest_ID='".$contest_ID."' ";
+    $result2 = $conn->query($sql2);
+    $row2 = $result2->fetch_row();
+    $start_time = $row2[0];
+    $duration = $row2[1];
+
+    if( strtotime($time) >  strtotime(timeAddition($start_time, $duration ))){
+        echo '<script type="text/javascript">'; 
+        echo 'alert("Deadline to submit has passed. Try again next time!");'; 
+        echo 'window.location.href = "user_display_contests.php";';
+        echo '</script>';
+    }
+    else{
 
     $sql = "SELECT test_input, expected_output, total_marks FROM round WHERE round_number=$round_number AND contest_ID=$contest_ID";
     $result = $conn->query($sql);
@@ -65,7 +85,11 @@
     $_SESSION["interpretor_result_msg"] = $interpretor_result_msg;
     $_SESSION["submitted_code"] = $submitted_code;
 
-    header("Location: ../php/code_editor.php?c_id=$contest_ID&r_no=$round_number");
+    //header("Location: ../php/code_editor.php?c_id=$contest_ID&r_no=$round_number");
+
+    echo ("<script>location.href = '../php/code_editor.php?c_id=$contest_ID&r_no=$round_number';</script>");
+ 
+    }
     exit;
 
 ?>

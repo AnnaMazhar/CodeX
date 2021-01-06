@@ -1,3 +1,11 @@
+<?php
+
+include "connect.php";
+include "fetch_name.php";
+include "connect.php";
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,15 +15,16 @@
     <style type="text/css">
       body { 
         margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1))
-        
+        /* font-family: Arial, Helvetica, sans-serif; */
+        font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
       }
 
       .header {
         overflow: hidden;
         background-color: #f1f1f1;
         padding: 40px 10px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
       }
 
       .header a {
@@ -28,26 +37,13 @@
         line-height: 25px;
         border-radius: 4px;
       }
-
       .header a.logo {
-        font-size: 25px;
-      }
-      .header b {
-        position: absolute;;
-        top: 10px;
-        right: 25px;
-        color: black;
-        text-align: center;
-        padding: 20px;
-        text-decoration: none;
-        font-size: 18px; 
-        line-height: 25px;
-        border-radius: 4px;
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+
       }
 
-      .header b.logo {
-        font-size: 25px;
-      }
       table{
       margin-left:auto; 
       margin-right:auto;
@@ -64,68 +60,33 @@
       height: 5px;
       padding: 10px;
     }
-      }
-      .button {
-        border: none;
-        border-radius: 5px;
-        color: white;
-        padding: 4px 8px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-      }
-
-      .button1 {
-        background-color: #4CAF50; 
-        color: white; 
-        border: 2px solid #4CAF50;
-      }
-
-      .button1:hover {
-        background-color: rgb(99,128,107);
-        color: black;
-      }
-
-      .button_red {
-        border: none;
-        border-radius: 5px;
-        color: white;
-        padding: 4px 8px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        background-color: #bd0808; 
-        color: white; 
-        border: 2px solid #bd0808;
-      }
-
-      .button_red:hover {
-        background-color: #e00b0b;
-        color: black;
-      }
-
-      .btn-group2 button {
+    th:hover
+        {
+            background-color: #999;
+        }
+    .btn-group2 button {
         position: absolute;
-        top: 55px;
-        right: 15px;
-        background-color: #0E5225; 
-        border: 1px solid green; /* Green border */
-        color: white; /* White text */
-        padding: 10px 24px; /* Some padding */
-        cursor: pointer; /* Pointer/hand icon */
-        float: left; /* Float the buttons side by side */
+        right: 38px;
+        top: 40px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
       }
 
       .btn-group2 button:hover {
-        background-color: #11346b;
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
       }
 
   
@@ -134,8 +95,6 @@
 
 <body>
     <?php 
-    include "connect.php";
-    include "fetch_name.php";
     $contestid = $_SESSION['contest_ID'];
   $round_num = $_SESSION['round_num'];
   $name = $_POST["cid"];
@@ -148,9 +107,6 @@
     </div>
     </div>
 
-    <?php 
-      include "connect.php";
-    ?>
     <div>
           <?php 
           $sql = "SELECT max(marks_awarded) as marks_awarded FROM submission WHERE round_number = '".$round_num."'  and

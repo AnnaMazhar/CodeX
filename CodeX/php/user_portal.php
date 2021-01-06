@@ -28,94 +28,129 @@ $conn->close();
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <style>
 * {box-sizing: border-box;}
 a:link {
-  color: white;
+  color: black;
   background-color: transparent;
   text-decoration: none;
 }
 a:visited {
-  color: white;
+  color: black;
   background-color: transparent;
   text-decoration: none;
 }
 a:hover {
-  color: #11346b;
+  color: #333;
   background-color: transparent;
   text-decoration: underline;
 }
 body { 
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(99,128,107);
+  font-family: URW Gothic L;
+  
+  /* background-color: rgb(99,128,107); */
+  /* background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1)) */
 }
 .btn-group button {
   position: absolute;
-  top: 60px;
-  right: 15px;
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
+  right: 38px;
+  top: 48px;
+  border: none;
+  background: #404040;
+  color: #ffffff !important;
+  font-weight: 100;
+  padding: 9px 38px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  /* float: right; */
 }
 
 .btn-group button:hover {
-  background-color: #11346b;
+  color: #404040 !important;
+  font-weight: 700 !important;
+  letter-spacing: 3px;
+  background: none;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.3s ease 0s;
 }
 .btn-group2 button {
   position: absolute;
-  top: 100px;
-  right: 15px;
-  background-color: #11346b; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 5px 5px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
+  top: 88px;
+  right: 38px;
+  border: none;
+  background: #404040;
+  color: #ffffff !important;
+  font-weight: 100;
+  padding: 9px 12px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  /* float: right; */
 }
 
 .btn-group2 button:hover {
-  background-color: #0E5225;
+  color: #404040 !important;
+  font-weight: 700 !important;
+  letter-spacing: 3px;
+  background: none;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.3s ease 0s;
 }
 
 .card {
-  position: absolute;
-  top: 200px;
-  right: 800px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  /*position: absolute;*/
+  /*top: 200px;*/
+  /*right: 800px;*/
+  display: inline-block;
+  margin-top: 5em;
+  margin-left: 9em;
+  margin-right: 3em;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
   transition: 0.3s;
   width: 20%;
-  color: white;
+  color: black;
 }
 .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
 .card2 {
-  position: absolute;
-  top: 200px;
-  right: 500px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  /*position: absolute;*/
+  /*top: 200px;*/
+  /*right: 500px;*/
+  display: inline-block;
+  margin-top: 5em;
+  margin-left: 3em;
+  margin-right: 3em;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
   transition: 0.3s;
   width: 20%;
-  color: white;
+  color: black;
 }
 .card2:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
 .card3 {
-  position: absolute;
-  top: 200px;
-  right: 200px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  /*position: absolute;*/
+  /*top: 200px;*/
+  /*right: 200px;*/
+  display: inline-block;
+  margin-top: 5em;
+  margin-left: 3em;
+  margin-right: 3em;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
   transition: 0.3s;
   width: 20%;
-  color: white;
+  color: black;
 }
 .card3:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
 
 .container {
@@ -126,6 +161,8 @@ body {
 .header {
   overflow: hidden;
   background-color: #f1f1f1;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
   padding: 40px 10px;
 }
 
@@ -142,14 +179,15 @@ body {
 
 .header a.logo {
   font-size: 35px;
-  font-weight: bold;
+  font-weight: 100;
+  text-transform: uppercase;
 }
 .header b {
   position: absolute;;
-  top: 10px;
+  top: 2px;
   right: 25px;
   color: black;
-  text-align: center;
+  /* text-align: center; */
   padding: 20px;
   text-decoration: none;
   font-size: 18px; 
@@ -159,7 +197,9 @@ body {
 
 .header b.logo {
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 100;
+  /* text-transform: uppercase; */
+
 }
   
 }
@@ -172,12 +212,13 @@ body {
   <b class="logo"> <?php echo "Welcome ".$name ?></b>
   
   <div class="btn-group">
-    <button onclick="document.location='user_details.php'" style="width:25%">View and Edit Profile  </button>  
+    <button onclick="document.location='user_details.php'" >My Profile  </button>  
   </div>
-</div>
+
 
 <div class="btn-group2">
-    <button onclick="document.location='../html/index.html'" style="width:25%">Sign Out </button>  
+    <button onclick="document.location='destroy_session.php'"><i class="fa fa-sign-out"></i></button>  
+</div>
 </div>
 
 <div class="card">
@@ -199,7 +240,6 @@ body {
     <A href="user_display_contests.php"> <h4>My Contests</h4>  </A>
   </div>
 </div>
-
 
 </body>
 </html>

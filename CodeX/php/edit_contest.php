@@ -20,14 +20,41 @@ if (!$conn) {
     
     <title>Contest Details</title>
     <style type="text/css">
-        body{
-        background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1))
-        }
-        fieldset
+         body { 
+        margin: 0;
+        /* font-family: Arial, Helvetica, sans-serif; */
+        font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+      }
+
+      .header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+        padding: 40px 10px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+      }
+
+      .header a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }
+      .header a.logo {
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+
+      }
+      fieldset
         {        
           position: absolute;
-          top: 140px;
-          right: 500px;
+          top: 240px;
+          right: 100px;
           width: 10em
         }
         input[type=text] {
@@ -47,40 +74,16 @@ if (!$conn) {
           background-color: lightblue;
         }
         input[type=submit] {
-            color: white;
-          background-color: #11346b;
+          background-color: #999;
         }
-        input[type=submit]:hover {
-          background-color: #3e8e41;
-        }
+        
 
         legend{
+            color:#333;
         margin-left: auto;
         margin-right: auto;
         }
-        .header {
-          overflow: hidden;
-          background-color: #f1f1f1;
-          padding: 30px 10px;
-        }
-
-        .header a {
-          
-          float: left;
-          color: black;
-          text-align: center;
-          padding: 12px;
-          text-decoration: none;
-          font-size: 18px; 
-          line-height: 25px;
-          border-radius: 4px;
-        }
-
-        .header a.logo {
-          font-family: Arial, Helvetica,sans-serif;
-          font-size: 25px;
-          
-        }
+        
         .form
         {
             background-color: grey;
@@ -88,120 +91,116 @@ if (!$conn) {
         margin-top: 0px;
         }
 
-        .rounds-table table{
-          align: center;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .rounds-table thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
+        tr, td, th
+      {
+          border-style: groove;
+          border-width: 0cm;
+          color: rgba(0, 0, 0, 0.705);
+          /* border-color: rgba(158, 94, 105, 0.4); */
+          background-color: rgba(64, 65, 66, 0.1);
+          padding: 10px 20px;
+          text-align: center;
+          transition: background-color 2s, border-radius 2s;
+      }
 
-        .rounds-table th, .rounds-table td {
-          height: 5px;
-          padding: 10px;
-        }
+      table
+      {
+          /* margin-top: 5em; */
+          margin-left: auto;
+          margin-right: auto;
+      }
 
-        .styled-table {
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
 
-        .styled-table thead tr {
-        background-color: grey;
-        color: black;
-        text-align: center;
-        border: 1px solid black;
-        }
+      th
+      {
+          color: white;
+          border-top-left-radius: 0.3cm;
+          border-top-right-radius: 0.3cm;
+          border-bottom-width: 0.1cm;
+          text-transform: uppercase;
+          border-color: #000000;
+          background-color:#333;
+      }
 
-        .styled-table th,
-        .styled-table td {
-        padding: 12px 15px;
-        }
+      th:hover
+      {
+          background-color: #999;
+      }
 
         .btn-group button {
         position: absolute;
-        top: 43px;
-        right: 17px;
-        background-color: #11346b; 
-        border: 1px solid green; /* Green border */
-        color: white; /* White text */
-        padding: 10px 24px; /* Some padding */
-        cursor: pointer; /* Pointer/hand icon */
-        float: left; /* Float the buttons side by side */
-        }
-        .btn-group button:hover {
-      background-color: #3e8e41;
-    }
+        right: 38px;
+        top: 10px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
 
-    .btn-group button {
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
+      .btn-group button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
 
-.btn-group-edit button {
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
+      .btn-group2 button {
+        position: absolute;
+        right: 38px;
+        top: 90px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
 
-.btn-group-delete button {
-  background-color: #e74c3c; 
-  border: 1px solid red; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
 
-.btn-group2 button {
-  position: absolute;
-  top: 85px;
-  right: 17px;
-  background-color: #11346b; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 5px 5px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
+      .btn-group3 button {
+        position: absolute;
+        right: 38px;
+        top: 50px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
 
-.btn-group3 button {
-  position: absolute;
-  top: 10px;
-  right: 17px;
-  background-color: #11346b; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 5px 5px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-
-.btn-group2 button:hover {
-  background-color: #0E5225;
-}
-
-.btn-group3 button:hover {
-  background-color: #0E5225;
-}
+      .btn-group3 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
             
     </style>
 </head>
@@ -270,7 +269,7 @@ else
 <div class="header">
   <a class="logo">  <?php echo $name ?> </a>
   <div class="btn-group">
-    <button onclick="edit_round(<?php echo $next_round_number ?>)" style="width:25%">Add Rounds</button>
+    <button onclick="edit_round(<?php echo $next_round_number; ?>)" style="width:25%">Add Rounds</button>
   </div>
 
   </div>
@@ -282,30 +281,31 @@ else
   <div class="btn-group3">
   <button onclick="participants()" style="width:25%">View Participants</button>
   </div>
+  <h2>Contest Details:</h2>
 
     <table class="styled-table">
     <thead>
         <tr>
-            <td>Contest ID</td>
-            <td><?php echo $contestid ?></td>
+            <th>Contest ID</th>
+            <td><?php echo $contestid; ?></td>
         </tr>
     
         <tr>
-            <td>Contest Name</td>
-            <td><?php echo $name ?></td>
+            <th>Contest Name</th>
+            <td><?php echo $name; ?></td>
         </tr>
         <tr>
-            <td>Time Created</td>
-            <td><?php echo $timecreated ?></td>
+            <th>Time Created</th>
+            <td><?php echo $timecreated; ?></td>
         </tr>
         <tr >
-            <td >Starting Time</td>
-            <td><?php echo $starttime ?></td>
+            <th >Starting Time</th>
+            <td><?php echo $starttime; ?></td>
         </tr>
 
         <tr>
-            <td>Duration (Minutes)</td>
-            <td><?php echo $duration ?></td>
+            <th>Duration (Minutes)</th>
+            <td><?php echo $duration; ?></td>
         </tr>
     </thead>
 </table>
@@ -345,8 +345,8 @@ $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$
         }
 
         ?>
-        <td><div class="btn-group-edit"><button id= "<?php echo $row[0]; ?>" onclick="edit_round(this.id)"  style="width:100%">Edit</button></div></td>
-        <td><div class="btn-group-delete"><button id="delete <?php $row[0]; ?>" onclick="delete_round(this.id)"  style="width:100%">Delete</button></div></td>
+        <td><div class="btn-group-edit"><button id= "<?php echo $row[0]; ?>" onclick="edit_round(this.id)" >Edit</button></div></td>
+        <td><div class="btn-group-delete"><button id="<?php echo "delete".$row[0]; ?>" onclick="delete_round(this.id)">Delete</button></div></td>
         <?php
         echo "</tr>";
       }
@@ -359,15 +359,16 @@ $sql = "SELECT round_number, title, total_marks FROM round WHERE contest_ID='".$
     <script type="text/javascript">
         function edit_round(round_number)
         {
-          console.log(parseInt(round_number));
+        //   console.log(parseInt(round_number));
           var element = document.getElementById("round_addition_form");
           element.value = parseInt(round_number);
           element.form.submit();
         }
         function delete_round(round_number)
         {
-          round_number = parseInt(round_number.substring(6));
-          console.log(round_number);
+          round_number = round_number.substring(6);
+          round_number = parseInt(round_number);
+        //   console.log(round_number);
           var element = document.getElementById("delete_round_form");
           element.value = round_number;
           element.form.submit();

@@ -1,3 +1,7 @@
+<?php
+  include "connect.php";
+  session_start();
+  ?>
 <!-- The comments in this file are very important for the future when we would be expanding the functionalities -->
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +18,12 @@
       font-size: 14px;
     }
     body { 
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: rgb(99,128,107);  
-    }
+  margin: 0;
+  font-family: URW Gothic L;
+  
+  /* background-color: rgb(99,128,107); */
+  /* background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1)) */
+}
 
     .btn{
         margin: 4px;
@@ -38,6 +44,8 @@
     }
 
     .ace_gutter {
+      -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
         min-width: 50px;
     }
 
@@ -56,15 +64,46 @@
         box-shadow: 1px 1px 5px #888888;
 
     }
+
+    .btn-group2 button {
+        position: absolute;
+        right: 38px;
+        top: 40px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
+
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
+      
   </style>
 </head>
 <body>
 
 <?php
-  include "connect.php";
-
   $contest_ID = $_GET["c_id"];
   $round_number = $_GET["r_no"];
+  ?>
+
+<div class="btn-group2">
+    <button onclick="document.location='view_and_attempt_contests.php?c_id='+'<?php echo $contest_ID;?>' "  style="width:10%">Back</button>
+    </div>
+
+<?php
 
   $sql = "SELECT title, problem_statement, total_marks FROM round WHERE contest_ID = $contest_ID AND round_number = $round_number";
 
@@ -89,13 +128,14 @@
   $submission_msg = "";
   $interpretor_result_msg = "";
 
-  session_start();
+  
 
   if (isset($_SESSION["submitted_code"]) && isset($_SESSION["interpretor_result_msg"]))
   {
     $default_code = $_SESSION["submitted_code"];
     $submission_msg = "Submitted!";
     $interpretor_result_msg = "Result: ".$_SESSION["interpretor_result_msg"];
+    // echo "$submission_msg<br>$interpretor_result_msg";
   }
 
 ?>
@@ -137,15 +177,14 @@
 </div> 
 <div class="container">
   <div class="row">
-    <h3><?php echo $submission_msg ?></h3>
-    <h3><?php echo $interpretor_result_msg ?></h3>
+    
   </div>
 </div>
 
   <script src="js/ace.js" type="text/javascript" charset="utf-8"></script>
   <script>
       var editor = ace.edit("editor");
-      editor.setTheme("ace/theme/dracula");
+      editor.setTheme("ace/theme/xcode");
       editor.session.setMode("ace/mode/python");
       editor.setValue("#WRITE YOUR CODE HERE\n#WARNING: This is python. Be careful with the Indentation!\n#Print your final result!\n\n\ndef main():\n\t#This is your main function\nmain()");
       editor.clearSelection();

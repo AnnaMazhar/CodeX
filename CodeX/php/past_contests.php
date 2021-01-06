@@ -8,115 +8,96 @@ session_start();
     <meta charset="utf-8"> 
     <title>Contest Details</title>
     <style type="text/css">
-    body{
-    background-image: linear-gradient(to left, rgb(7, 145, 85, 0.1), rgb(7, 145, 90, 0.6), rgba(7, 145, 85, 1));
-    font-family: Arial, Helvetica,sans-serif;
+    body { 
+        margin: 0;
+        /* font-family: Arial, Helvetica, sans-serif; */
+        font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+      }
+
+      .header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+        padding: 40px 10px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.7);
+      }
+
+      .header a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 4px;
+      }
+      .header a.logo {
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+
+      }
+
+      tr, td, th
+      {
+          border-style: groove;
+          border-width: 0cm;
+          color: rgba(0, 0, 0, 0.705);
+          /* border-color: rgba(158, 94, 105, 0.4); */
+          background-color: rgba(64, 65, 66, 0.1);
+          padding: 10px 20px;
+          text-align: center;
+          transition: background-color 2s, border-radius 2s;
+      }
+
+      table
+      {
+           margin-top: 3em; 
+          margin-left: auto;
+          margin-right: auto;
+      }
+
+
+      th
+      {
+          color: white;
+          border-top-left-radius: 0.3cm;
+          border-top-right-radius: 0.3cm;
+          border-bottom-width: 0.1cm;
+          text-transform: uppercase;
+          border-color: #000000;
+          background-color:#333;
+      }
+
+      .btn-group2 button {
+        position: absolute;
+        right: 38px;
+        top: 40px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
+
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
+      
+    .margin-auto{
+      margin: auto;
     }
-    .header {
-    overflow: hidden;
-    background-color: #f1f1f1;
-    padding: 40px 10px;
-  }
-
-  .header a {
-    float: left;
-    color: black;
-    text-align: center;
-    padding: 12px;
-    text-decoration: none;
-    font-size: 18px; 
-    line-height: 25px;
-    border-radius: 4px;
-  }
-
-  .header a.logo {
-    font-size: 30px;
-    font-weight: bold;
-  }
-    .contest{
-      color:red;
-      float: left;
-      color: blue;
-      text-align: center;
-      text-decoration: none;
-      font-size: 30px; 
-      line-height: 25px;
-      border-radius: 4px;
-    }
-
-    .card {
-      position: relative;
-      top: 200px;
-      right: 800px;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-      transition: 0.3s;
-      width: 20%;
-      color: white;
-    }
-
-
-  .header b {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  color: black;
-  text-align: center;
-  padding: 20px;
-  text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
-}       
-
-
-.margin-auto{
-  margin: auto;
-}
-
-table{
-  margin-left:auto; 
-    margin-right:auto;
-    margin-top:auto;
-  
-
-  top: 10%;
-  align: center;
-  border: 1px solid black;
-  border-collapse: collapse;
-  text-align: center;
-  width: 75%;
-  background-color: grey; 
-}
-
-th, td {
-  height: 5px;
-  padding: 10px;
-}
-
-.btn-group button {
-  margin: auto;
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group2 button {
-  position: absolute;
-  top: 50px;
-  right: 15px;
-  background-color: #0E5225; 
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-}
-
-.btn-group2 button:hover {
-  background-color: #11346b;
-}
 
 
  </style>
@@ -172,7 +153,10 @@ function timeAddition( $time, $plusMinutes ) {
   echo "<th>".""."</th>";
   //echo '<table border="1">';
   while ($row = $result->fetch_row()) {
-  echo "<tr>";
+  
+    if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5]) ){
+          echo "<tr>";
+    }
     
     for($i = 0; $i < $result->field_count; $i++){
       if($currentdt->format('Y-m-d H:i:s') > timeAddition($row[4],$row[5]) ){
@@ -193,9 +177,15 @@ function timeAddition( $time, $plusMinutes ) {
   </div></td>
 <?php
   }
-?>
 
-  <script type="text/javascript">
+}
+echo "</table>";        
+
+$conn->close();
+
+?>
+</div>
+<script type="text/javascript">
   function id_store(clicked_id)
   {
     var res = parseInt(clicked_id);
@@ -205,17 +195,7 @@ function timeAddition( $time, $plusMinutes ) {
     
     header('Location: past_stats.php'); 
   } 
-  </script>
-<?php
-
-}
-echo "</table>";        
-
-$conn->close();
-
-?>
-</div>
-  <script>
+  
   function back()
   {
     window.location.href = "admin_portal.php";
@@ -223,6 +203,3 @@ $conn->close();
 </script>
 </body>
 </html>
-  
-
-

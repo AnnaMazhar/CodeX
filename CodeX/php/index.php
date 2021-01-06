@@ -1,6 +1,7 @@
 <?php
 
     include "connect.php";
+    
     session_start();
     
     $uname_su_inp = ""; if (isset($_SESSION["uname_su_inp"])) { $uname_su_inp = $_SESSION["uname_su_inp"]; }
@@ -41,7 +42,7 @@
     <title>Register / Login</title>
     <style type="text/css">
     	body{
-    	background-color: rgba(7, 145, 85, 0.9);
+    	background-color: #333;
     	}
         fieldset
         {

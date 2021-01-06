@@ -1,3 +1,8 @@
+<?php
+include "connect.php";
+// Start session
+session_start();?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,32 +10,39 @@
     
     <title>Register / Login</title>
     <style type="text/css">
-        body{
-        background-color: rgb(99,128,107)
-        }
-        .btn-group button {
-      position: absolute;
-      top: 115px;
-      left: 5px;
-      background-color: #11346b; 
-      border: 1px solid green; /* Green border */
-      color: white; /* White text */
-      padding: 10px 24px; /* Some padding */
-      cursor: pointer; /* Pointer/hand icon */
-      float: left; /* Float the buttons side by side */
-    }
-        .btn-group button:hover {
-      background-color: #3e8e41;
-    }
+           body { 
+        /* margin: 0; */
+        /* font-family: Arial, Helvetica, sans-serif; */
+            font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+          }
+        .btn-group2 button {
+        position: absolute;
+        top: 115px;
+        left: 5px;
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 9px 38px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+      }
+
+      .btn-group2 button:hover {
+        color: #404040 !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: none;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.3s ease 0s;
+      }
 
     </style>
 
 <?php
-
-include "connect.php";
-
-// Start session
-session_start();
 
 
 if (!($_SESSION["username"]))
@@ -90,7 +102,7 @@ $conn->close();
 </head>
 <body>
 
-    <div class="btn-group">
+    <div class="btn-group2">
     <button onclick="document.location='user_portal.php'"  style="width:25%">Return to Participant Portal</button>
   </div>
 </body>

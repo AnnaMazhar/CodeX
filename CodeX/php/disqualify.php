@@ -16,13 +16,14 @@ if ($conn->query($sql) === TRUE) {
 }
 
 function reload_page() {
-    echo <<<HTML
+    ?>
         <script type="text/javascript"> 
+            alert("Participant Disqualified Successfully!");
             window.onload=function(){
                 window.location.href = "view_submission.php";
             }
         </script>
-    HTML;
+    <?php
 }
 
 $conn->close();
